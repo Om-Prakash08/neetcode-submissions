@@ -1277,6 +1277,7 @@ class MSTAlgorithms:
         # edges contains elements of format [u, v, weight]
         edges.sort(key=lambda x: x[2]) # Sort by weight
         parent = list(range(n))
+        size = [1] * n
         
         def _find(i: int) -> int:
             if parent[i] == i:
@@ -1289,7 +1290,13 @@ class MSTAlgorithms:
             root_j = _find(j)
             if root_i == root_j:
                 return False
-            parent[root_i] = root_j
+            # Union by size to keep the tree height minimized
+            if size[root_i] < size[root_j]:
+                parent[root_i] = root_j
+                size[root_j] += size[root_i]
+            else:
+                parent[root_j] = root_i
+                size[root_i] += size[root_j]
             return True
             
         mst_weight = 0
@@ -1350,7 +1357,11 @@ public class MSTAlgorithms {
     public static int kruskal(int n, List<Edge> edges) {
         Collections.sort(edges);
         int[] parent = new int[n];
-        for (int i = 0; i < n; i++) parent[i] = i;
+        int[] size = new int[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+            size[i] = 1;
+        }
 
         int mstWeight = 0;
         int edgeCount = 0;
@@ -1359,7 +1370,14 @@ public class MSTAlgorithms {
             int rootU = find(edge.u, parent);
             int rootV = find(edge.v, parent);
             if (rootU != rootV) {
-                parent[rootU] = rootV;
+                // Union by size to keep the tree height minimized
+                if (size[rootU] < size[rootV]) {
+                    parent[rootU] = rootV;
+                    size[rootV] += size[rootU];
+                } else {
+                    parent[rootV] = rootU;
+                    size[rootU] += size[rootV];
+                }
                 mstWeight += edge.w;
                 edgeCount++;
                 if (edgeCount == n - 1) break;
@@ -1424,6 +1442,7 @@ public:
     static int kruskal(int n, std::vector<Edge>& edges) {
         std::sort(edges.begin(), edges.end());
         std::vector<int> parent(n);
+        std::vector<int> size(n, 1);
         for (int i = 0; i < n; ++i) parent[i] = i;
 
         auto find = [&](auto& self, int i) -> int {
@@ -1438,7 +1457,14 @@ public:
             int rootU = find(find, edge.u);
             int rootV = find(find, edge.v);
             if (rootU != rootV) {
-                parent[rootU] = rootV;
+                // Union by size to keep the tree height minimized
+                if (size[rootU] < size[rootV]) {
+                    parent[rootU] = rootV;
+                    size[rootV] += size[rootU];
+                } else {
+                    parent[rootV] = rootU;
+                    size[rootU] += size[rootV];
+                }
                 mstWeight += edge.w;
                 edgeCount++;
                 if (edgeCount == n - 1) break;
