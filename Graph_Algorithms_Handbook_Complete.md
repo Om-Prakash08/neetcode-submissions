@@ -123,11 +123,12 @@ public class GraphRepresentations {
 
 ```cpp
 #include <vector>
+using namespace std;
 
 class GraphRepresentations {
 public:
-    static std::vector<std::vector<int>> createAdjacencyList(int n, const std::vector<std::vector<int>>& edges, bool bidirectional = true) {
-        std::vector<std::vector<int>> adjList(n);
+    static vector<vector<int>> createAdjacencyList(int n, const vector<vector<int>>& edges, bool bidirectional = true) {
+        vector<vector<int>> adjList(n);
         for (const auto& edge : edges) {
             int u = edge[0];
             int v = edge[1];
@@ -139,8 +140,8 @@ public:
         return adjList;
     }
 
-    static std::vector<std::vector<int>> createAdjacencyMatrix(int n, const std::vector<std::vector<int>>& edges, bool bidirectional = true) {
-        std::vector<std::vector<int>> matrix(n, std::vector<int>(n, 0));
+    static vector<vector<int>> createAdjacencyMatrix(int n, const vector<vector<int>>& edges, bool bidirectional = true) {
+        vector<vector<int>> matrix(n, vector<int>(n, 0));
         for (const auto& edge : edges) {
             int u = edge[0];
             int v = edge[1];
@@ -151,8 +152,7 @@ public:
         }
         return matrix;
     }
-};
-```
+};```
 
 </details>
 
@@ -316,10 +316,11 @@ public class Traversals {
 #include <vector>
 #include <queue>
 #include <stack>
+using namespace std;
 
 class Traversals {
 private:
-    static void dfsHelper(int node, const std::vector<std::vector<int>>& adj, std::vector<bool>& visited, std::vector<int>& order) {
+    static void dfsHelper(int node, const vector<vector<int>>& adj, vector<bool>& visited, vector<int>& order) {
         visited[node] = true;
         order.push_back(node);
         for (int neighbor : adj[node]) {
@@ -330,10 +331,10 @@ private:
     }
 
 public:
-    static std::vector<int> bfs(int n, const std::vector<std::vector<int>>& adj, int start) {
-        std::vector<bool> visited(n, false);
-        std::queue<int> q;
-        std::vector<int> order;
+    static vector<int> bfs(int n, const vector<vector<int>>& adj, int start) {
+        vector<bool> visited(n, false);
+        queue<int> q;
+        vector<int> order;
 
         q.push(start);
         visited[start] = true;
@@ -352,17 +353,17 @@ public:
         return order;
     }
 
-    static std::vector<int> dfsRecursive(int n, const std::vector<std::vector<int>>& adj, int start) {
-        std::vector<bool> visited(n, false);
-        std::vector<int> order;
+    static vector<int> dfsRecursive(int n, const vector<vector<int>>& adj, int start) {
+        vector<bool> visited(n, false);
+        vector<int> order;
         dfsHelper(start, adj, visited, order);
         return order;
     }
 
-    static std::vector<int> dfsIterative(int n, const std::vector<std::vector<int>>& adj, int start) {
-        std::vector<bool> visited(n, false);
-        std::stack<int> s;
-        std::vector<int> order;
+    static vector<int> dfsIterative(int n, const vector<vector<int>>& adj, int start) {
+        vector<bool> visited(n, false);
+        stack<int> s;
+        vector<int> order;
 
         s.push(start);
         visited[start] = true;
@@ -382,8 +383,7 @@ public:
         }
         return order;
     }
-};
-```
+};```
 
 </details>
 
@@ -523,10 +523,11 @@ public class CycleDetection {
 
 ```cpp
 #include <vector>
+using namespace std;
 
 class CycleDetection {
 private:
-    static bool dfsUndirected(int curr, int parent, const std::vector<std::vector<int>>& adj, std::vector<bool>& visited) {
+    static bool dfsUndirected(int curr, int parent, const vector<vector<int>>& adj, vector<bool>& visited) {
         visited[curr] = true;
         for (int neighbor : adj[curr]) {
             if (!visited[neighbor]) {
@@ -538,7 +539,7 @@ private:
         return false;
     }
 
-    static bool dfsDirected(int curr, const std::vector<std::vector<int>>& adj, std::vector<int>& state) {
+    static bool dfsDirected(int curr, const vector<vector<int>>& adj, vector<int>& state) {
         state[curr] = 1; // Gray state (Visiting)
         for (int neighbor : adj[curr]) {
             if (state[neighbor] == 1) {
@@ -553,8 +554,8 @@ private:
     }
 
 public:
-    static bool hasCycleUndirectedDFS(int n, const std::vector<std::vector<int>>& adj) {
-        std::vector<bool> visited(n, false);
+    static bool hasCycleUndirectedDFS(int n, const vector<vector<int>>& adj) {
+        vector<bool> visited(n, false);
         for (int i = 0; i < n; i++) {
             if (!visited[i]) {
                 if (dfsUndirected(i, -1, adj, visited)) return true;
@@ -563,8 +564,8 @@ public:
         return false;
     }
 
-    static bool hasCycleDirectedDFS(int n, const std::vector<std::vector<int>>& adj) {
-        std::vector<int> state(n, 0); // 0: White, 1: Gray, 2: Black
+    static bool hasCycleDirectedDFS(int n, const vector<vector<int>>& adj) {
+        vector<int> state(n, 0); // 0: White, 1: Gray, 2: Black
         for (int i = 0; i < n; i++) {
             if (state[i] == 0) {
                 if (dfsDirected(i, adj, state)) return true;
@@ -572,8 +573,7 @@ public:
         }
         return false;
     }
-};
-```
+};```
 
 </details>
 
@@ -733,10 +733,11 @@ public class TopologicalSort {
 #include <queue>
 #include <stack>
 #include <algorithm>
+using namespace std;
 
 class TopologicalSort {
 private:
-    static bool dfsHelper(int curr, const std::vector<std::vector<int>>& adj, std::vector<int>& state, std::stack<int>& s) {
+    static bool dfsHelper(int curr, const vector<vector<int>>& adj, vector<int>& state, stack<int>& s) {
         state[curr] = 1;
         for (int neighbor : adj[curr]) {
             if (state[neighbor] == 1) return true; // Cycle detected
@@ -750,20 +751,20 @@ private:
     }
 
 public:
-    static std::vector<int> kahnsAlgorithm(int n, const std::vector<std::vector<int>>& adj) {
-        std::vector<int> indegree(n, 0);
+    static vector<int> kahnsAlgorithm(int n, const vector<vector<int>>& adj) {
+        vector<int> indegree(n, 0);
         for (int u = 0; u < n; ++u) {
             for (int neighbor : adj[u]) {
                 indegree[neighbor]++;
             }
         }
 
-        std::queue<int> q;
+        queue<int> q;
         for (int i = 0; i < n; ++i) {
             if (indegree[i] == 0) q.push(i);
         }
 
-        std::vector<int> topoOrder;
+        vector<int> topoOrder;
         while (!q.empty()) {
             int curr = q.front();
             q.pop();
@@ -774,30 +775,29 @@ public:
             }
         }
 
-        return (topoOrder.size() == n) ? topoOrder : std::vector<int>();
+        return (topoOrder.size() == n) ? topoOrder : vector<int>();
     }
 
-    static std::vector<int> dfsTopologicalSort(int n, const std::vector<std::vector<int>>& adj) {
-        std::vector<int> state(n, 0);
-        std::stack<int> s;
+    static vector<int> dfsTopologicalSort(int n, const vector<vector<int>>& adj) {
+        vector<int> state(n, 0);
+        stack<int> s;
 
         for (int i = 0; i < n; ++i) {
             if (state[i] == 0) {
                 if (dfsHelper(i, adj, state, s)) {
-                    return std::vector<int>(); // Cycle detected, return empty
+                    return vector<int>(); // Cycle detected, return empty
                 }
             }
         }
 
-        std::vector<int> topoOrder;
+        vector<int> topoOrder;
         while (!s.empty()) {
             topoOrder.push_back(s.top());
             s.pop();
         }
         return topoOrder;
     }
-};
-```
+};```
 
 </details>
 
@@ -1004,6 +1004,7 @@ public class ShortestPath {
 #include <queue>
 #include <stdexcept>
 #include <algorithm>
+using namespace std;
 
 class ShortestPath {
 public:
@@ -1012,13 +1013,13 @@ public:
         int weight;
     };
 
-    static std::vector<int> dijkstra(int n, const std::vector<std::vector<Edge>>& adj, int start) {
+    static vector<int> dijkstra(int n, const vector<vector<Edge>>& adj, int start) {
         const int INF = 1000000000; // Safe int sentinel (1e9 fits well below INT_MAX)
-        std::vector<int> dist(n, INF);
+        vector<int> dist(n, INF);
         dist[start] = 0;
         
         // Min-heap storing {distance, node}
-        std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<std::pair<int, int>>> minHeap;
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> minHeap;
         minHeap.push({0, start});
 
         while (!minHeap.empty()) {
@@ -1038,9 +1039,9 @@ public:
         return dist;
     }
 
-    static std::vector<int> bellmanFord(int n, const std::vector<std::vector<int>>& edges, int start) {
+    static vector<int> bellmanFord(int n, const vector<vector<int>>& edges, int start) {
         const int INF = 1000000000;
-        std::vector<int> dist(n, INF);
+        vector<int> dist(n, INF);
         dist[start] = 0;
 
         for (int i = 0; i < n - 1; ++i) {
@@ -1060,38 +1061,37 @@ public:
             int v = edge[1];
             int w = edge[2];
             if (dist[u] != INF && dist[u] + w < dist[v]) {
-                throw std::runtime_error("Negative weight cycle detected.");
+                throw runtime_error("Negative weight cycle detected.");
             }
         }
         return dist;
     }
 
-    static std::vector<std::vector<int>> floydWarshall(int n, const std::vector<std::vector<int>>& edges) {
+    static vector<vector<int>> floydWarshall(int n, const vector<vector<int>>& edges) {
         // NOTE: Assumes directed edges. For undirected, also set dist[v][u] = min(dist[v][u], w).
         const int INF = 1000000000;
-        std::vector<std::vector<int>> dist(n, std::vector<int>(n, INF));
+        vector<vector<int>> dist(n, vector<int>(n, INF));
         for (int i = 0; i < n; ++i) dist[i][i] = 0;
 
         for (const auto& edge : edges) {
             int u = edge[0];
             int v = edge[1];
             int w = edge[2];
-            dist[u][v] = std::min(dist[u][v], w);
+            dist[u][v] = min(dist[u][v], w);
         }
 
         for (int k = 0; k < n; ++k) {
             for (int i = 0; i < n; ++i) {
                 for (int j = 0; j < n; ++j) {
                     if (dist[i][k] != INF && dist[k][j] != INF) {
-                        dist[i][j] = std::min(dist[i][j], dist[i][k] + dist[k][j]);
+                        dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
                     }
                 }
             }
         }
         return dist;
     }
-};
-```
+};```
 
 </details>
 
@@ -1238,17 +1238,18 @@ public class DisjointSet {
 ```cpp
 #include <vector>
 #include <numeric>
+using namespace std;
 
 class DisjointSet {
 private:
-    std::vector<int> parent;
-    std::vector<int> rank;
-    std::vector<int> size;
+    vector<int> parent;
+    vector<int> rank;
+    vector<int> size;
 
 public:
     DisjointSet(int n) {
         parent.resize(n);
-        std::iota(parent.begin(), parent.end(), 0);
+        iota(parent.begin(), parent.end(), 0);
         rank.resize(n, 0);
         size.resize(n, 1);
     }
@@ -1295,8 +1296,7 @@ public:
     int getSize(int i) {
         return size[find(i)];
     }
-};
-```
+};```
 
 </details>
 
@@ -1497,6 +1497,7 @@ public class MSTAlgorithms {
 #include <vector>
 #include <queue>
 #include <algorithm>
+using namespace std;
 
 class MSTAlgorithms {
 public:
@@ -1507,10 +1508,10 @@ public:
         }
     };
 
-    static int kruskal(int n, std::vector<Edge>& edges) {
-        std::sort(edges.begin(), edges.end());
-        std::vector<int> parent(n);
-        std::vector<int> size(n, 1);
+    static int kruskal(int n, vector<Edge>& edges) {
+        sort(edges.begin(), edges.end());
+        vector<int> parent(n);
+        vector<int> size(n, 1);
         for (int i = 0; i < n; ++i) parent[i] = i;
 
         auto find = [&](auto& self, int i) -> int {
@@ -1541,10 +1542,10 @@ public:
         return mstWeight;
     }
 
-    static int prim(int n, const std::vector<std::vector<std::pair<int, int>>>& adj) {
-        std::vector<bool> visited(n, false);
+    static int prim(int n, const vector<vector<pair<int, int>>>& adj) {
+        vector<bool> visited(n, false);
         // Min-heap storing {weight, node}
-        std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<std::pair<int, int>>> pq;
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
         pq.push({0, 0});
 
         int mstWeight = 0;
@@ -1570,8 +1571,7 @@ public:
         }
         return (visitedCount == n) ? mstWeight : -1;
     }
-};
-```
+};```
 
 </details>
 
@@ -1797,10 +1797,11 @@ public class SCCAlgorithms {
 #include <vector>
 #include <stack>
 #include <algorithm>
+using namespace std;
 
 class SCCAlgorithms {
 private:
-    static void fillOrder(int u, const std::vector<std::vector<int>>& adj, std::vector<bool>& visited, std::stack<int>& s) {
+    static void fillOrder(int u, const vector<vector<int>>& adj, vector<bool>& visited, stack<int>& s) {
         visited[u] = true;
         for (int v : adj[u]) {
             if (!visited[v]) fillOrder(v, adj, visited, s);
@@ -1808,7 +1809,7 @@ private:
         s.push(u);
     }
 
-    static void dfsTranspose(int u, const std::vector<std::vector<int>>& adjT, std::vector<bool>& visited, std::vector<int>& scc) {
+    static void dfsTranspose(int u, const vector<vector<int>>& adjT, vector<bool>& visited, vector<int>& scc) {
         visited[u] = true;
         scc.push_back(u);
         for (int v : adjT[u]) {
@@ -1816,8 +1817,8 @@ private:
         }
     }
 
-    static void tarjanDFS(int u, const std::vector<std::vector<int>>& adj, std::vector<int>& disc, std::vector<int>& low, 
-                         std::vector<bool>& inStack, std::stack<int>& s, std::vector<std::vector<int>>& sccs, int& time) {
+    static void tarjanDFS(int u, const vector<vector<int>>& adj, vector<int>& disc, vector<int>& low, 
+                         vector<bool>& inStack, stack<int>& s, vector<vector<int>>& sccs, int& time) {
         disc[u] = low[u] = time++;
         s.push(u);
         inStack[u] = true;
@@ -1825,14 +1826,14 @@ private:
         for (int v : adj[u]) {
             if (disc[v] == -1) {
                 tarjanDFS(v, adj, disc, low, inStack, s, sccs, time);
-                low[u] = std::min(low[u], low[v]);
+                low[u] = min(low[u], low[v]);
             } else if (inStack[v]) {
-                low[u] = std::min(low[u], disc[v]);
+                low[u] = min(low[u], disc[v]);
             }
         }
 
         if (low[u] == disc[u]) {
-            std::vector<int> scc;
+            vector<int> scc;
             while (true) {
                 int node = s.top();
                 s.pop();
@@ -1845,29 +1846,29 @@ private:
     }
 
 public:
-    static std::vector<std::vector<int>> kosaraju(int n, const std::vector<std::vector<int>>& adj) {
-        std::vector<bool> visited(n, false);
-        std::stack<int> s;
+    static vector<vector<int>> kosaraju(int n, const vector<vector<int>>& adj) {
+        vector<bool> visited(n, false);
+        stack<int> s;
 
         for (int i = 0; i < n; ++i) {
             if (!visited[i]) fillOrder(i, adj, visited, s);
         }
 
-        std::vector<std::vector<int>> adjT(n);
+        vector<vector<int>> adjT(n);
         for (int u = 0; u < n; ++u) {
             for (int v : adj[u]) {
                 adjT[v].push_back(u);
             }
         }
 
-        std::fill(visited.begin(), visited.end(), false);
-        std::vector<std::vector<int>> sccs;
+        fill(visited.begin(), visited.end(), false);
+        vector<vector<int>> sccs;
 
         while (!s.empty()) {
             int curr = s.top();
             s.pop();
             if (!visited[curr]) {
-                std::vector<int> scc;
+                vector<int> scc;
                 dfsTranspose(curr, adjT, visited, scc);
                 sccs.push_back(scc);
             }
@@ -1875,12 +1876,12 @@ public:
         return sccs;
     }
 
-    static std::vector<std::vector<int>> tarjan(int n, const std::vector<std::vector<int>>& adj) {
-        std::vector<int> disc(n, -1);
-        std::vector<int> low(n, -1);
-        std::vector<bool> inStack(n, false);
-        std::stack<int> s;
-        std::vector<std::vector<int>> sccs;
+    static vector<vector<int>> tarjan(int n, const vector<vector<int>>& adj) {
+        vector<int> disc(n, -1);
+        vector<int> low(n, -1);
+        vector<bool> inStack(n, false);
+        stack<int> s;
+        vector<vector<int>> sccs;
         int time = 0;
 
         for (int i = 0; i < n; ++i) {
@@ -1890,8 +1891,7 @@ public:
         }
         return sccs;
     }
-};
-```
+};```
 
 </details>
 
@@ -2092,29 +2092,30 @@ public class TarjanCriticalItems {
 ```cpp
 #include <vector>
 #include <algorithm>
+using namespace std;
 
 class TarjanCriticalItems {
 private:
-    static void dfsBridges(int u, int parent, const std::vector<std::vector<int>>& adj, std::vector<int>& disc, 
-                           std::vector<int>& low, std::vector<std::vector<int>>& bridges, int& time) {
+    static void dfsBridges(int u, int parent, const vector<vector<int>>& adj, vector<int>& disc, 
+                           vector<int>& low, vector<vector<int>>& bridges, int& time) {
         disc[u] = low[u] = time++;
         for (int v : adj[u]) {
             // NOTE: Parent skipped by node ID. For multigraphs (parallel edges), use edge index instead.
             if (v == parent) continue;
             if (disc[v] == -1) {
                 dfsBridges(v, u, adj, disc, low, bridges, time);
-                low[u] = std::min(low[u], low[v]);
+                low[u] = min(low[u], low[v]);
                 if (low[v] > disc[u]) {
                     bridges.push_back({u, v});
                 }
             } else {
-                low[u] = std::min(low[u], disc[v]);
+                low[u] = min(low[u], disc[v]);
             }
         }
     }
 
-    static void dfsAP(int u, int parent, const std::vector<std::vector<int>>& adj, std::vector<int>& disc, 
-                      std::vector<int>& low, std::vector<bool>& isAp, int& time) {
+    static void dfsAP(int u, int parent, const vector<vector<int>>& adj, vector<int>& disc, 
+                      vector<int>& low, vector<bool>& isAp, int& time) {
         disc[u] = low[u] = time++;
         int children = 0;
         for (int v : adj[u]) {
@@ -2123,12 +2124,12 @@ private:
             if (disc[v] == -1) {
                 children++;
                 dfsAP(v, u, adj, disc, low, isAp, time);
-                low[u] = std::min(low[u], low[v]);
+                low[u] = min(low[u], low[v]);
                 if (parent != -1 && low[v] >= disc[u]) {
                     isAp[u] = true;
                 }
             } else {
-                low[u] = std::min(low[u], disc[v]);
+                low[u] = min(low[u], disc[v]);
             }
         }
         if (parent == -1 && children > 1) {
@@ -2137,10 +2138,10 @@ private:
     }
 
 public:
-    static std::vector<std::vector<int>> findBridges(int n, const std::vector<std::vector<int>>& adj) {
-        std::vector<int> disc(n, -1);
-        std::vector<int> low(n, -1);
-        std::vector<std::vector<int>> bridges;
+    static vector<vector<int>> findBridges(int n, const vector<vector<int>>& adj) {
+        vector<int> disc(n, -1);
+        vector<int> low(n, -1);
+        vector<vector<int>> bridges;
         int time = 0;
 
         for (int i = 0; i < n; ++i) {
@@ -2151,10 +2152,10 @@ public:
         return bridges;
     }
 
-    static std::vector<int> findArticulationPoints(int n, const std::vector<std::vector<int>>& adj) {
-        std::vector<int> disc(n, -1);
-        std::vector<int> low(n, -1);
-        std::vector<bool> isAp(n, false);
+    static vector<int> findArticulationPoints(int n, const vector<vector<int>>& adj) {
+        vector<int> disc(n, -1);
+        vector<int> low(n, -1);
+        vector<bool> isAp(n, false);
         int time = 0;
 
         for (int i = 0; i < n; ++i) {
@@ -2163,14 +2164,13 @@ public:
             }
         }
 
-        std::vector<int> apList;
+        vector<int> apList;
         for (int i = 0; i < n; ++i) {
             if (isAp[i]) apList.push_back(i);
         }
         return apList;
     }
-};
-```
+};```
 
 </details>
 
@@ -2309,10 +2309,11 @@ public class BipartiteVerify {
 #include <vector>
 #include <queue>
 #include <algorithm>
+using namespace std;
 
 class BipartiteVerify {
 private:
-    static bool dfsHelper(int u, int c, const std::vector<std::vector<int>>& adj, std::vector<int>& color) {
+    static bool dfsHelper(int u, int c, const vector<vector<int>>& adj, vector<int>& color) {
         color[u] = c;
         for (int v : adj[u]) {
             if (color[v] == -1) {
@@ -2325,12 +2326,12 @@ private:
     }
 
 public:
-    static bool isBipartiteBFS(int n, const std::vector<std::vector<int>>& adj) {
-        std::vector<int> color(n, -1);
+    static bool isBipartiteBFS(int n, const vector<vector<int>>& adj) {
+        vector<int> color(n, -1);
         for (int i = 0; i < n; ++i) {
             if (color[i] == -1) {
                 color[i] = 0;
-                std::queue<int> q;
+                queue<int> q;
                 q.push(i);
 
                 while (!q.empty()) {
@@ -2350,8 +2351,8 @@ public:
         return true;
     }
 
-    static bool isBipartiteDFS(int n, const std::vector<std::vector<int>>& adj) {
-        std::vector<int> color(n, -1);
+    static bool isBipartiteDFS(int n, const vector<vector<int>>& adj) {
+        vector<int> color(n, -1);
         for (int i = 0; i < n; ++i) {
             if (color[i] == -1) {
                 if (!dfsHelper(i, 0, adj, color)) return false;
@@ -2359,8 +2360,7 @@ public:
         }
         return true;
     }
-};
-```
+};```
 
 </details>
 
@@ -2629,13 +2629,14 @@ public class AdvancedAlgorithms {
 #include <deque>
 #include <climits>
 #include <algorithm>
+using namespace std;
 
 class AdvancedAlgorithms {
 public:
-    static int multiSourceBFS(std::vector<std::vector<int>>& grid) {
+    static int multiSourceBFS(vector<vector<int>>& grid) {
         int rows = grid.size();
         int cols = grid[0].size();
-        std::queue<std::vector<int>> q;
+        queue<vector<int>> q;
         int freshOranges = 0;
 
         for (int r = 0; r < rows; ++r) {
@@ -2651,7 +2652,7 @@ public:
         if (freshOranges == 0) return 0;
 
         int minutes = 0;
-        std::vector<std::pair<int, int>> dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        vector<pair<int, int>> dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
         while (!q.empty()) {
             auto curr = q.front();
@@ -2659,7 +2660,7 @@ public:
             int r = curr[0];
             int c = curr[1];
             int d = curr[2];
-            minutes = std::max(minutes, d);
+            minutes = max(minutes, d);
 
             for (const auto& dir : dirs) {
                 int nr = r + dir.first;
@@ -2674,11 +2675,11 @@ public:
         return (freshOranges == 0) ? minutes : -1;
     }
 
-    static std::vector<int> zeroOneBFS(int n, const std::vector<std::vector<std::pair<int, int>>>& adj, int start) {
+    static vector<int> zeroOneBFS(int n, const vector<vector<pair<int, int>>>& adj, int start) {
         const int INF = 1000000000;
-        std::vector<int> dist(n, INF);
+        vector<int> dist(n, INF);
         dist[start] = 0;
-        std::deque<int> dq;
+        deque<int> dq;
         dq.push_back(start);
 
         while (!dq.empty()) {
@@ -2701,14 +2702,14 @@ public:
         return dist;
     }
 
-    static int edmondsKarp(int n, int source, int sink, const std::vector<std::vector<int>>& capacity) {
-        std::vector<std::vector<int>> residual = capacity;
-        std::vector<int> parent(n);
+    static int edmondsKarp(int n, int source, int sink, const vector<vector<int>>& capacity) {
+        vector<vector<int>> residual = capacity;
+        vector<int> parent(n);
         int maxFlow = 0;
 
         auto bfs = [&](int s, int t) -> bool {
-            std::vector<bool> visited(n, false);
-            std::queue<int> q;
+            vector<bool> visited(n, false);
+            queue<int> q;
             q.push(s);
             visited[s] = true;
             parent[s] = -1;
@@ -2729,10 +2730,10 @@ public:
         };
 
         while (bfs(source, sink)) {
-            int pathFlow = INT_MAX; // Safe: std::min will reduce to the actual bottleneck capacity
+            int pathFlow = INT_MAX; // Safe: min will reduce to the actual bottleneck capacity
             for (int v = sink; v != source; v = parent[v]) {
                 int u = parent[v];
-                pathFlow = std::min(pathFlow, residual[u][v]);
+                pathFlow = min(pathFlow, residual[u][v]);
             }
 
             for (int v = sink; v != source; v = parent[v]) {
@@ -2745,8 +2746,7 @@ public:
         }
         return maxFlow;
     }
-};
-```
+};```
 
 </details>
 
@@ -2844,13 +2844,14 @@ public class GridImplicitGraph {
 
 ```cpp
 #include <vector>
+using namespace std;
 
 class GridImplicitGraph {
 public:
-    static std::vector<std::pair<int, int>> getNeighbors4Dir(int r, int c, int rows, int cols) {
-        std::vector<int> dr = {-1, 1, 0, 0};
-        std::vector<int> dc = {0, 0, -1, 1};
-        std::vector<std::pair<int, int>> neighbors;
+    static vector<pair<int, int>> getNeighbors4Dir(int r, int c, int rows, int cols) {
+        vector<int> dr = {-1, 1, 0, 0};
+        vector<int> dc = {0, 0, -1, 1};
+        vector<pair<int, int>> neighbors;
         for (int i = 0; i < 4; ++i) {
             int nr = r + dr[i];
             int nc = c + dc[i];
@@ -2861,10 +2862,10 @@ public:
         return neighbors;
     }
 
-    static std::vector<std::pair<int, int>> getNeighbors8Dir(int r, int c, int rows, int cols) {
-        std::vector<int> dr = {-1, -1, -1, 0, 0, 1, 1, 1};
-        std::vector<int> dc = {-1, 0, 1, -1, 1, -1, 0, 1};
-        std::vector<std::pair<int, int>> neighbors;
+    static vector<pair<int, int>> getNeighbors8Dir(int r, int c, int rows, int cols) {
+        vector<int> dr = {-1, -1, -1, 0, 0, 1, 1, 1};
+        vector<int> dc = {-1, 0, 1, -1, 1, -1, 0, 1};
+        vector<pair<int, int>> neighbors;
         for (int i = 0; i < 8; ++i) {
             int nr = r + dr[i];
             int nc = c + dc[i];
@@ -2874,8 +2875,7 @@ public:
         }
         return neighbors;
     }
-};
-```
+};```
 
 </details>
 
@@ -2991,23 +2991,24 @@ public class DAGDynamicProgramming {
 #include <vector>
 #include <queue>
 #include <algorithm>
+using namespace std;
 
 class DAGDynamicProgramming {
 public:
-    static int longestPathInDAG(int n, const std::vector<std::vector<std::pair<int, int>>>& adj) {
-        std::vector<int> indegree(n, 0);
+    static int longestPathInDAG(int n, const vector<vector<pair<int, int>>>& adj) {
+        vector<int> indegree(n, 0);
         for (int u = 0; u < n; ++u) {
             for (const auto& edge : adj[u]) {
                 indegree[edge.first]++;
             }
         }
 
-        std::queue<int> q;
+        queue<int> q;
         for (int i = 0; i < n; ++i) {
             if (indegree[i] == 0) q.push(i);
         }
 
-        std::vector<int> topoOrder;
+        vector<int> topoOrder;
         while (!q.empty()) {
             int curr = q.front();
             q.pop();
@@ -3019,21 +3020,20 @@ public:
             }
         }
 
-        std::vector<int> dp(n, 0);
+        vector<int> dp(n, 0);
         int maxPath = 0;
 
         for (int u : topoOrder) {
             for (const auto& edge : adj[u]) {
                 int v = edge.first;
                 int w = edge.second;
-                dp[v] = std::max(dp[v], dp[u] + w);
-                maxPath = std::max(maxPath, dp[v]);
+                dp[v] = max(dp[v], dp[u] + w);
+                maxPath = max(maxPath, dp[v]);
             }
         }
         return maxPath;
     }
-};
-```
+};```
 
 </details>
 
@@ -3157,26 +3157,27 @@ class SolutionAlienDictionary:
 #include <unordered_set>
 #include <queue>
 #include <algorithm>
+using namespace std;
 
 class SolutionAlienDictionary {
 public:
-    std::string alienOrder(std::vector<std::string>& words) {
-        std::unordered_map<char, std::unordered_set<char>> adj;
-        std::unordered_map<char, int> indegree;
+    string alienOrder(vector<string>& words) {
+        unordered_map<char, unordered_set<char>> adj;
+        unordered_map<char, int> indegree;
         
         for (const auto& w : words) {
             for (char c : w) {
-                adj[c] = std::unordered_set<char>();
+                adj[c] = unordered_set<char>();
                 indegree[c] = 0;
             }
         }
         
         for (size_t i = 0; i < words.size() - 1; ++i) {
-            std::string w1 = words[i], w2 = words[i+1];
+            string w1 = words[i], w2 = words[i+1];
             if (w1.size() > w2.size() && w1.compare(0, w2.size(), w2) == 0) {
                 return "";
             }
-            size_t min_len = std::min(w1.size(), w2.size());
+            size_t min_len = min(w1.size(), w2.size());
             for (size_t j = 0; j < min_len; ++j) {
                 if (w1[j] != w2[j]) {
                     if (adj[w1[j]].find(w2[j]) == adj[w1[j]].end()) {
@@ -3188,12 +3189,12 @@ public:
             }
         }
         
-        std::queue<char> q;
+        queue<char> q;
         for (const auto& pair : indegree) {
             if (pair.second == 0) q.push(pair.first);
         }
         
-        std::string result = "";
+        string result = "";
         while (!q.empty()) {
             char curr = q.front();
             q.pop();
@@ -3206,8 +3207,7 @@ public:
         
         return (result.size() == indegree.size()) ? result : "";
     }
-};
-```
+};```
 
 </details>
 
@@ -3286,22 +3286,23 @@ class SolutionWordLadderII:
 #include <unordered_map>
 #include <queue>
 #include <algorithm>
+using namespace std;
 
 class SolutionWordLadderII {
 private:
-    std::unordered_map<std::string, int> level_map;
-    std::vector<std::vector<std::string>> results;
-    std::string start_word;
+    unordered_map<string, int> level_map;
+    vector<vector<string>> results;
+    string start_word;
 
-    void backtrack(const std::string& curr, std::vector<std::string>& path) {
+    void backtrack(const string& curr, vector<string>& path) {
         if (curr == start_word) {
-            std::vector<std::string> temp = path;
-            std::reverse(temp.begin(), temp.end());
+            vector<string> temp = path;
+            reverse(temp.begin(), temp.end());
             results.push_back(temp);
             return;
         }
         int curr_level = level_map[curr];
-        std::string temp_word = curr;
+        string temp_word = curr;
         for (size_t i = 0; i < temp_word.size(); ++i) {
             char original = temp_word[i];
             for (char c = 'a'; c <= 'z'; ++c) {
@@ -3317,20 +3318,20 @@ private:
     }
 
 public:
-    std::vector<std::vector<std::string>> findLadders(std::string beginWord, std::string endWord, std::vector<std::string>& wordList) {
-        std::unordered_set<std::string> word_set(wordList.begin(), wordList.end());
+    vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_set<string> word_set(wordList.begin(), wordList.end());
         if (word_set.find(endWord) == word_set.end()) return {};
 
-        std::queue<std::string> q;
+        queue<string> q;
         q.push(beginWord);
         level_map[beginWord] = 0;
 
         while (!q.empty()) {
-            std::string curr = q.front();
+            string curr = q.front();
             q.pop();
             if (curr == endWord) break;
             
-            std::string next_word = curr;
+            string next_word = curr;
             for (size_t i = 0; i < next_word.size(); ++i) {
                 char original = next_word[i];
                 for (char c = 'a'; c <= 'z'; ++c) {
@@ -3347,12 +3348,11 @@ public:
         if (level_map.find(endWord) == level_map.end()) return {};
 
         start_word = beginWord;
-        std::vector<std::string> path = {endWord};
+        vector<string> path = {endWord};
         backtrack(endWord, path);
         return results;
     }
-};
-```
+};```
 
 </details>
 
@@ -3405,12 +3405,13 @@ class SolutionCourseScheduleII:
 ```cpp
 #include <vector>
 #include <queue>
+using namespace std;
 
 class SolutionCourseScheduleII {
 public:
-    std::vector<int> findOrder(int numCourses, std::vector<std::vector<int>>& prerequisites) {
-        std::vector<std::vector<int>> adj(numCourses);
-        std::vector<int> indegree(numCourses, 0);
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> adj(numCourses);
+        vector<int> indegree(numCourses, 0);
         
         for (const auto& pre : prerequisites) {
             int dest = pre[0];
@@ -3419,12 +3420,12 @@ public:
             indegree[dest]++;
         }
         
-        std::queue<int> q;
+        queue<int> q;
         for (int i = 0; i < numCourses; ++i) {
             if (indegree[i] == 0) q.push(i);
         }
         
-        std::vector<int> order;
+        vector<int> order;
         while (!q.empty()) {
             int curr = q.front();
             q.pop();
@@ -3435,10 +3436,9 @@ public:
             }
         }
         
-        return (order.size() == numCourses) ? order : std::vector<int>();
+        return (order.size() == numCourses) ? order : vector<int>();
     }
-};
-```
+};```
 
 </details>
 
@@ -3491,13 +3491,14 @@ class SolutionNumberOfIslands:
 
 ```cpp
 #include <vector>
+using namespace std;
 
 class SolutionNumberOfIslands {
 private:
-    void dfs(int r, int c, std::vector<std::vector<char>>& grid, int rows, int cols) {
+    void dfs(int r, int c, vector<vector<char>>& grid, int rows, int cols) {
         grid[r][c] = '0';
-        std::vector<int> dr = {-1, 1, 0, 0};
-        std::vector<int> dc = {0, 0, -1, 1};
+        vector<int> dr = {-1, 1, 0, 0};
+        vector<int> dc = {0, 0, -1, 1};
         for (int i = 0; i < 4; ++i) {
             int nr = r + dr[i];
             int nc = c + dc[i];
@@ -3508,7 +3509,7 @@ private:
     }
 
 public:
-    int numIslands(std::vector<std::vector<char>>& grid) {
+    int numIslands(vector<vector<char>>& grid) {
         if (grid.empty()) return 0;
         int rows = grid.size();
         int cols = grid[0].size();
@@ -3524,8 +3525,7 @@ public:
         }
         return island_count;
     }
-};
-```
+};```
 
 </details>
 
@@ -3585,45 +3585,45 @@ class SolutionCriticalConnections:
 ```cpp
 #include <vector>
 #include <algorithm>
+using namespace std;
 
 class SolutionCriticalConnections {
 private:
     int time = 0;
-    void dfs(int u, int parent, const std::vector<std::vector<int>>& adj, std::vector<int>& disc, 
-             std::vector<int>& low, std::vector<std::vector<int>>& bridges) {
+    void dfs(int u, int parent, const vector<vector<int>>& adj, vector<int>& disc, 
+             vector<int>& low, vector<vector<int>>& bridges) {
         disc[u] = low[u] = time++;
         for (int v : adj[u]) {
             if (v == parent) continue;
             if (disc[v] == -1) {
                 dfs(v, u, adj, disc, low, bridges);
-                low[u] = std::min(low[u], low[v]);
+                low[u] = min(low[u], low[v]);
                 if (low[v] > disc[u]) {
                     bridges.push_back({u, v});
                 }
             } else {
-                low[u] = std::min(low[u], disc[v]);
+                low[u] = min(low[u], disc[v]);
             }
         }
     }
 
 public:
-    std::vector<std::vector<int>> criticalConnections(int n, std::vector<std::vector<int>>& connections) {
-        std::vector<std::vector<int>> adj(n);
+    vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
+        vector<vector<int>> adj(n);
         for (const auto& conn : connections) {
             adj[conn[0]].push_back(conn[1]);
             adj[conn[1]].push_back(conn[0]);
         }
 
-        std::vector<int> disc(n, -1);
-        std::vector<int> low(n, -1);
-        std::vector<std::vector<int>> bridges;
+        vector<int> disc(n, -1);
+        vector<int> low(n, -1);
+        vector<vector<int>> bridges;
         time = 0;
 
         dfs(0, -1, adj, disc, low, bridges);
         return bridges;
     }
-};
-```
+};```
 
 </details>
 
@@ -3684,13 +3684,14 @@ class SolutionRottingOranges:
 #include <vector>
 #include <queue>
 #include <algorithm>
+using namespace std;
 
 class SolutionRottingOranges {
 public:
-    int orangesRotting(std::vector<std::vector<int>>& grid) {
+    int orangesRotting(vector<vector<int>>& grid) {
         int rows = grid.size();
         int cols = grid[0].size();
-        std::queue<std::vector<int>> q;
+        queue<vector<int>> q;
         int fresh = 0;
 
         for (int r = 0; r < rows; ++r) {
@@ -3706,7 +3707,7 @@ public:
         if (fresh == 0) return 0;
 
         int minutes = 0;
-        std::vector<std::pair<int, int>> dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        vector<pair<int, int>> dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
         while (!q.empty()) {
             auto curr = q.front();
@@ -3714,7 +3715,7 @@ public:
             int r = curr[0];
             int c = curr[1];
             int d = curr[2];
-            minutes = std::max(minutes, d);
+            minutes = max(minutes, d);
 
             for (const auto& dir : dirs) {
                 int nr = r + dir.first;
@@ -3728,8 +3729,7 @@ public:
         }
         return (fresh == 0) ? minutes : -1;
     }
-};
-```
+};```
 
 </details>
 
@@ -3790,13 +3790,14 @@ class SolutionPacificAtlantic:
 
 ```cpp
 #include <vector>
+using namespace std;
 
 class SolutionPacificAtlantic {
 private:
-    void dfs(int r, int c, const std::vector<std::vector<int>>& heights, std::vector<std::vector<bool>>& reachable, int rows, int cols) {
+    void dfs(int r, int c, const vector<vector<int>>& heights, vector<vector<bool>>& reachable, int rows, int cols) {
         reachable[r][c] = true;
-        std::vector<int> dr = {-1, 1, 0, 0};
-        std::vector<int> dc = {0, 0, -1, 1};
+        vector<int> dr = {-1, 1, 0, 0};
+        vector<int> dc = {0, 0, -1, 1};
         for (int i = 0; i < 4; ++i) {
             int nr = r + dr[i];
             int nc = c + dc[i];
@@ -3809,12 +3810,12 @@ private:
     }
 
 public:
-    std::vector<std::vector<int>> pacificAtlantic(std::vector<std::vector<int>>& heights) {
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
         if (heights.empty()) return {};
         int rows = heights.size();
         int cols = heights[0].size();
-        std::vector<std::vector<bool>> pac(rows, std::vector<bool>(cols, false));
-        std::vector<std::vector<bool>> atl(rows, std::vector<bool>(cols, false));
+        vector<vector<bool>> pac(rows, vector<bool>(cols, false));
+        vector<vector<bool>> atl(rows, vector<bool>(cols, false));
 
         for (int r = 0; r < rows; ++r) {
             dfs(r, 0, heights, pac, rows, cols);
@@ -3825,7 +3826,7 @@ public:
             dfs(rows - 1, c, heights, atl, rows, cols);
         }
 
-        std::vector<std::vector<int>> result;
+        vector<vector<int>> result;
         for (int r = 0; r < rows; ++r) {
             for (int c = 0; c < cols; ++c) {
                 if (pac[r][c] && atl[r][c]) {
@@ -3835,8 +3836,7 @@ public:
         }
         return result;
     }
-};
-```
+};```
 
 </details>
 
@@ -3904,23 +3904,24 @@ class SolutionBusRoutes:
 #include <unordered_map>
 #include <unordered_set>
 #include <queue>
+using namespace std;
 
 class SolutionBusRoutes {
 public:
-    int numBusesToDestination(std::vector<std::vector<int>>& routes, int source, int target) {
+    int numBusesToDestination(vector<vector<int>>& routes, int source, int target) {
         if (source == target) return 0;
 
-        std::unordered_map<int, std::vector<int>> stop_to_routes;
+        unordered_map<int, vector<int>> stop_to_routes;
         for (int i = 0; i < routes.size(); ++i) {
             for (int stop : routes[i]) {
                 stop_to_routes[stop].push_back(i);
             }
         }
 
-        std::queue<std::pair<int, int>> q; // {stop, count}
+        queue<pair<int, int>> q; // {stop, count}
         q.push({source, 0});
-        std::unordered_set<int> visited_stops = {source};
-        std::unordered_set<int> visited_routes;
+        unordered_set<int> visited_stops = {source};
+        unordered_set<int> visited_routes;
 
         while (!q.empty()) {
             auto [curr_stop, bus_count] = q.front();
@@ -3942,8 +3943,7 @@ public:
         }
         return -1;
     }
-};
-```
+};```
 
 </details>
 
@@ -3997,19 +3997,20 @@ class SolutionNetworkDelayTime:
 #include <vector>
 #include <queue>
 #include <algorithm>
+using namespace std;
 
 class SolutionNetworkDelayTime {
 public:
-    int networkDelayTime(std::vector<std::vector<int>>& times, int n, int k) {
-        std::vector<std::vector<std::pair<int, int>>> adj(n + 1);
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        vector<vector<pair<int, int>>> adj(n + 1);
         for (const auto& t : times) {
             adj[t[0]].push_back({t[1], t[2]});
         }
 
         const int INF = 1000000000;
-        std::vector<int> dist(n + 1, INF);
+        vector<int> dist(n + 1, INF);
         dist[k] = 0;
-        std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<std::pair<int, int>>> pq;
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
         pq.push({0, k});
 
         while (!pq.empty()) {
@@ -4030,12 +4031,11 @@ public:
 
         int max_dist = 0;
         for (int i = 1; i <= n; ++i) {
-            max_dist = std::max(max_dist, dist[i]);
+            max_dist = max(max_dist, dist[i]);
         }
         return (max_dist == INF) ? -1 : max_dist;
     }
-};
-```
+};```
 
 </details>
 
@@ -4092,20 +4092,21 @@ class SolutionCloneGraph:
 ```cpp
 #include <vector>
 #include <unordered_map>
+using namespace std;
 
 class Node {
 public:
     int val;
-    std::vector<Node*> neighbors;
+    vector<Node*> neighbors;
     Node() {
         val = 0;
-        neighbors = std::vector<Node*>();
+        neighbors = vector<Node*>();
     }
     Node(int _val) {
         val = _val;
-        neighbors = std::vector<Node*>();
+        neighbors = vector<Node*>();
     }
-    Node(int _val, std::vector<Node*> _neighbors) {
+    Node(int _val, vector<Node*> _neighbors) {
         val = _val;
         neighbors = _neighbors;
     }
@@ -4113,7 +4114,7 @@ public:
 
 class SolutionCloneGraph {
 private:
-    std::unordered_map<Node*, Node*> cloned_map;
+    unordered_map<Node*, Node*> cloned_map;
 
 public:
     Node* cloneGraph(Node* node) {
@@ -4130,8 +4131,7 @@ public:
         }
         return clone;
     }
-};
-```
+};```
 
 </details>
 
@@ -4179,16 +4179,17 @@ class SolutionCheapestFlights:
 ```cpp
 #include <vector>
 #include <algorithm>
+using namespace std;
 
 class SolutionCheapestFlights {
 public:
-    int findCheapestPrice(int n, std::vector<std::vector<int>>& flights, int src, int dst, int k) {
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
         const int INF = 1000000000;
-        std::vector<int> dist(n, INF);
+        vector<int> dist(n, INF);
         dist[src] = 0;
 
         for (int i = 0; i <= k; ++i) {
-            std::vector<int> temp_dist = dist;
+            vector<int> temp_dist = dist;
             for (const auto& f : flights) {
                 int u = f[0];
                 int v = f[1];
@@ -4202,8 +4203,7 @@ public:
 
         return (dist[dst] == INF) ? -1 : dist[dst];
     }
-};
-```
+};```
 
 </details>
 
@@ -4258,20 +4258,21 @@ class SolutionSwimInRisingWater:
 #include <vector>
 #include <queue>
 #include <algorithm>
+using namespace std;
 
 class SolutionSwimInRisingWater {
 public:
-    int swimInWater(std::vector<std::vector<int>>& grid) {
+    int swimInWater(vector<vector<int>>& grid) {
         int n = grid.size();
-        std::vector<std::vector<bool>> visited(n, std::vector<bool>(n, false));
+        vector<vector<bool>> visited(n, vector<bool>(n, false));
         // Min-heap storing {max_val, r, c}
-        std::priority_queue<std::vector<int>, std::vector<std::vector<int>>, std::greater<std::vector<int>>> pq;
+        priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> pq;
         
         pq.push({grid[0][0], 0, 0});
         visited[0][0] = true;
         
-        std::vector<int> dr = {-1, 1, 0, 0};
-        std::vector<int> dc = {0, 0, -1, 1};
+        vector<int> dr = {-1, 1, 0, 0};
+        vector<int> dc = {0, 0, -1, 1};
 
         while (!pq.empty()) {
             auto curr = pq.top();
@@ -4287,14 +4288,13 @@ public:
                 int nc = c + dc[i];
                 if (nr >= 0 && nr < n && nc >= 0 && nc < n && !visited[nr][nc]) {
                     visited[nr][nc] = true;
-                    pq.push({std::max(t, grid[nr][nc]), nr, nc});
+                    pq.push({max(t, grid[nr][nc]), nr, nc});
                 }
             }
         }
         return -1;
     }
-};
-```
+};```
 
 </details>
 
@@ -4360,17 +4360,18 @@ class SolutionEvaluateDivision:
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+using namespace std;
 
 class SolutionEvaluateDivision {
 private:
-    double dfs(const std::string& start, const std::string& end, std::unordered_map<std::string, std::vector<std::pair<std::string, double>>>& adj,
-               std::unordered_set<std::string>& visited) {
+    double dfs(const string& start, const string& end, unordered_map<string, vector<pair<string, double>>>& adj,
+               unordered_set<string>& visited) {
         if (adj.find(start) == adj.end() || adj.find(end) == adj.end()) return -1.0;
         if (start == end) return 1.0;
         
         visited.insert(start);
         for (const auto& neighbor : adj[start]) {
-            std::string next_node = neighbor.first;
+            string next_node = neighbor.first;
             double weight = neighbor.second;
             if (visited.find(next_node) == visited.end()) {
                 double temp = dfs(next_node, end, adj, visited);
@@ -4383,25 +4384,24 @@ private:
     }
 
 public:
-    std::vector<double> calcEquation(std::vector<std::vector<std::string>>& equations, std::vector<double>& values, std::vector<std::vector<std::string>>& queries) {
-        std::unordered_map<std::string, std::vector<std::pair<std::string, double>>> adj;
+    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
+        unordered_map<string, vector<pair<string, double>>> adj;
         for (size_t i = 0; i < equations.size(); ++i) {
-            std::string u = equations[i][0];
-            std::string v = equations[i][1];
+            string u = equations[i][0];
+            string v = equations[i][1];
             double w = values[i];
             adj[u].push_back({v, w});
             adj[v].push_back({u, 1.0 / w});
         }
 
-        std::vector<double> results;
+        vector<double> results;
         for (const auto& q : queries) {
-            std::unordered_set<std::string> visited;
+            unordered_set<string> visited;
             results.push_back(dfs(q[0], q[1], adj, visited));
         }
         return results;
     }
-};
-```
+};```
 
 </details>
 
@@ -4455,21 +4455,22 @@ class SolutionLongestIncreasingPath:
 ```cpp
 #include <vector>
 #include <algorithm>
+using namespace std;
 
 class SolutionLongestIncreasingPath {
 private:
-    int dfs(int r, int c, const std::vector<std::vector<int>>& matrix, std::vector<std::vector<int>>& memo, int rows, int cols) {
+    int dfs(int r, int c, const vector<vector<int>>& matrix, vector<vector<int>>& memo, int rows, int cols) {
         if (memo[r][c] != 0) return memo[r][c];
 
         int max_len = 1;
-        std::vector<int> dr = {-1, 1, 0, 0};
-        std::vector<int> dc = {0, 0, -1, 1};
+        vector<int> dr = {-1, 1, 0, 0};
+        vector<int> dc = {0, 0, -1, 1};
 
         for (int i = 0; i < 4; ++i) {
             int nr = r + dr[i];
             int nc = c + dc[i];
             if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && matrix[nr][nc] > matrix[r][c]) {
-                max_len = std::max(max_len, 1 + dfs(nr, nc, matrix, memo, rows, cols));
+                max_len = max(max_len, 1 + dfs(nr, nc, matrix, memo, rows, cols));
             }
         }
 
@@ -4478,22 +4479,21 @@ private:
     }
 
 public:
-    int longestIncreasingPath(std::vector<std::vector<int>>& matrix) {
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
         if (matrix.empty()) return 0;
         int rows = matrix.size();
         int cols = matrix[0].size();
-        std::vector<std::vector<int>> memo(rows, std::vector<int>(cols, 0));
+        vector<vector<int>> memo(rows, vector<int>(cols, 0));
 
         int global_max = 0;
         for (int r = 0; r < rows; ++r) {
             for (int c = 0; c < cols; ++c) {
-                global_max = std::max(global_max, dfs(r, c, matrix, memo, rows, cols));
+                global_max = max(global_max, dfs(r, c, matrix, memo, rows, cols));
             }
         }
         return global_max;
     }
-};
-```
+};```
 
 </details>
 
@@ -4571,10 +4571,11 @@ class SolutionAccountsMerge:
 #include <vector>
 #include <unordered_map>
 #include <algorithm>
+using namespace std;
 
 class DSU {
 private:
-    std::vector<int> parent;
+    vector<int> parent;
 public:
     DSU(int n) {
         parent.resize(n);
@@ -4595,14 +4596,14 @@ public:
 
 class SolutionAccountsMerge {
 public:
-    std::vector<std::vector<std::string>> accountsMerge(std::vector<std::vector<std::string>>& accounts) {
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
         int n = accounts.size();
         DSU dsu(n);
-        std::unordered_map<std::string, int> email_to_id;
+        unordered_map<string, int> email_to_id;
 
         for (int i = 0; i < n; ++i) {
             for (size_t j = 1; j < accounts[i].size(); ++j) {
-                std::string email = accounts[i][j];
+                string email = accounts[i][j];
                 if (email_to_id.find(email) != email_to_id.end()) {
                     dsu.unionNodes(i, email_to_id[email]);
                 } else {
@@ -4611,27 +4612,26 @@ public:
             }
         }
 
-        std::unordered_map<int, std::vector<std::string>> groups;
+        unordered_map<int, vector<string>> groups;
         for (const auto& pair : email_to_id) {
-            std::string email = pair.first;
+            string email = pair.first;
             int account_id = pair.second;
             int parent = dsu.find(account_id);
             groups[parent].push_back(email);
         }
 
-        std::vector<std::vector<std::string>> results;
+        vector<vector<string>> results;
         for (auto& pair : groups) {
             int parent_id = pair.first;
             auto& emails = pair.second;
-            std::sort(emails.begin(), emails.end());
-            std::vector<std::string> acc = {accounts[parent_id][0]};
+            sort(emails.begin(), emails.end());
+            vector<string> acc = {accounts[parent_id][0]};
             acc.insert(acc.end(), emails.begin(), emails.end());
             results.push_back(acc);
         }
         return results;
     }
-};
-```
+};```
 
 </details>
 
@@ -4689,16 +4689,17 @@ class SolutionReconstructItinerary:
 #include <unordered_map>
 #include <queue>
 #include <algorithm>
+using namespace std;
 
 class SolutionReconstructItinerary {
 private:
-    std::unordered_map<std::string, std::priority_queue<std::string, std::vector<std::string>, std::greater<std::string>>> adj;
-    std::vector<std::string> itinerary;
+    unordered_map<string, priority_queue<string, vector<string>, greater<string>>> adj;
+    vector<string> itinerary;
 
-    void dfs(const std::string& airport) {
+    void dfs(const string& airport) {
         auto& dests = adj[airport];
         while (!dests.empty()) {
-            std::string next_dest = dests.top();
+            string next_dest = dests.top();
             dests.pop();
             dfs(next_dest);
         }
@@ -4706,16 +4707,15 @@ private:
     }
 
 public:
-    std::vector<std::string> findItinerary(std::vector<std::vector<std::string>>& tickets) {
+    vector<string> findItinerary(vector<vector<string>>& tickets) {
         for (const auto& t : tickets) {
             adj[t[0]].push(t[1]);
         }
         dfs("JFK");
-        std::reverse(itinerary.begin(), itinerary.end());
+        reverse(itinerary.begin(), itinerary.end());
         return itinerary;
     }
-};
-```
+};```
 
 </details>
 
@@ -4764,10 +4764,11 @@ class SolutionIsBipartite:
 
 ```cpp
 #include <vector>
+using namespace std;
 
 class SolutionIsBipartite {
 private:
-    bool dfs(int u, int c, const std::vector<std::vector<int>>& graph, std::vector<int>& color) {
+    bool dfs(int u, int c, const vector<vector<int>>& graph, vector<int>& color) {
         color[u] = c;
         for (int v : graph[u]) {
             if (color[v] == -1) {
@@ -4780,9 +4781,9 @@ private:
     }
 
 public:
-    bool isBipartite(std::vector<std::vector<int>>& graph) {
+    bool isBipartite(vector<vector<int>>& graph) {
         int n = graph.size();
-        std::vector<int> color(n, -1);
+        vector<int> color(n, -1);
         for (int i = 0; i < n; ++i) {
             if (color[i] == -1) {
                 if (!dfs(i, 0, graph, color)) return false;
@@ -4790,8 +4791,7 @@ public:
         }
         return true;
     }
-};
-```
+};```
 
 </details>
 
@@ -4845,10 +4845,11 @@ class SolutionSafeStates:
 
 ```cpp
 #include <vector>
+using namespace std;
 
 class SolutionSafeStates {
 private:
-    bool hasCycle(int u, const std::vector<std::vector<int>>& graph, std::vector<int>& state) {
+    bool hasCycle(int u, const vector<vector<int>>& graph, vector<int>& state) {
         state[u] = 1;
         for (int v : graph[u]) {
             if (state[v] == 1) return true;
@@ -4861,10 +4862,10 @@ private:
     }
 
 public:
-    std::vector<int> eventualSafeNodes(std::vector<std::vector<int>>& graph) {
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
         int n = graph.size();
-        std::vector<int> state(n, 0); // 0: White, 1: Gray, 2: Black
-        std::vector<int> safe;
+        vector<int> state(n, 0); // 0: White, 1: Gray, 2: Black
+        vector<int> safe;
 
         for (int i = 0; i < n; ++i) {
             if (state[i] == 2 || !hasCycle(i, graph, state)) {
@@ -4873,8 +4874,7 @@ public:
         }
         return safe;
     }
-};
-```
+};```
 
 </details>
 
@@ -4950,14 +4950,15 @@ class SolutionMakingLargeIsland:
 #include <unordered_map>
 #include <unordered_set>
 #include <algorithm>
+using namespace std;
 
 class SolutionMakingLargeIsland {
 private:
-    int dfs(int r, int c, int label, std::vector<std::vector<int>>& grid, int n) {
+    int dfs(int r, int c, int label, vector<vector<int>>& grid, int n) {
         grid[r][c] = label;
         int size = 1;
-        std::vector<int> dr = {-1, 1, 0, 0};
-        std::vector<int> dc = {0, 0, -1, 1};
+        vector<int> dr = {-1, 1, 0, 0};
+        vector<int> dc = {0, 0, -1, 1};
         for (int i = 0; i < 4; ++i) {
             int nr = r + dr[i];
             int nc = c + dc[i];
@@ -4969,9 +4970,9 @@ private:
     }
 
 public:
-    int largestIsland(std::vector<std::vector<int>>& grid) {
+    int largestIsland(vector<vector<int>>& grid) {
         int n = grid.size();
-        std::unordered_map<int, int> island_sizes;
+        unordered_map<int, int> island_sizes;
         int next_label = 2;
 
         for (int r = 0; r < n; ++r) {
@@ -4986,15 +4987,15 @@ public:
 
         int max_size = 0;
         for (const auto& pair : island_sizes) {
-            max_size = std::max(max_size, pair.second);
+            max_size = max(max_size, pair.second);
         }
 
         for (int r = 0; r < n; ++r) {
             for (int c = 0; c < n; ++c) {
                 if (grid[r][c] == 0) {
-                    std::unordered_set<int> seen_labels;
-                    std::vector<int> dr = {-1, 1, 0, 0};
-                    std::vector<int> dc = {0, 0, -1, 1};
+                    unordered_set<int> seen_labels;
+                    vector<int> dr = {-1, 1, 0, 0};
+                    vector<int> dc = {0, 0, -1, 1};
                     for (int i = 0; i < 4; ++i) {
                         int nr = r + dr[i];
                         int nc = c + dc[i];
@@ -5006,7 +5007,7 @@ public:
                     for (int lbl : seen_labels) {
                         current_size += island_sizes[lbl];
                     }
-                    max_size = std::max(max_size, current_size);
+                    max_size = max(max_size, current_size);
                 }
             }
         }
@@ -5014,8 +5015,7 @@ public:
         // No special fallback needed: for all-zero grids the scan sets max_size = 1 (flip one cell).
         return max_size;
     }
-};
-```
+};```
 
 </details>
 
@@ -5076,19 +5076,20 @@ class SolutionMinHeightTrees:
 #include <vector>
 #include <unordered_set>
 #include <queue>
+using namespace std;
 
 class SolutionMinHeightTrees {
 public:
-    std::vector<int> findMinHeightTrees(int n, std::vector<std::vector<int>>& edges) {
+    vector<int> findMinHeightTrees(int n, vector<vector<int>>& edges) {
         if (n == 1) return {0};
 
-        std::vector<std::unordered_set<int>> adj(n);
+        vector<unordered_set<int>> adj(n);
         for (const auto& e : edges) {
             adj[e[0]].insert(e[1]);
             adj[e[1]].insert(e[0]);
         }
 
-        std::vector<int> leaves;
+        vector<int> leaves;
         for (int i = 0; i < n; ++i) {
             if (adj[i].size() == 1) leaves.push_back(i);
         }
@@ -5096,7 +5097,7 @@ public:
         int remaining_nodes = n;
         while (remaining_nodes > 2) {
             remaining_nodes -= leaves.size();
-            std::vector<int> next_leaves;
+            vector<int> next_leaves;
             for (int leaf : leaves) {
                 int neighbor = *adj[leaf].begin();
                 adj[neighbor].erase(leaf);
@@ -5108,8 +5109,8 @@ public:
         }
         return leaves;
     }
-};
-```
+};```
+
 </details>
 
 *   **Time Complexity**: $O(V)$
