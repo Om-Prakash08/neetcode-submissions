@@ -4221,7 +4221,7 @@ public:
     1.  Define the path cost as the **maximum elevation** encountered along that route.
     2.  Use a Min-Heap storing `(max_elevation_so_far, r, c)`.
     3.  When checking neighbor `(nr, nc)`, the tentative cost is:
-        $$\text{next\_cost} = \max(\text{current\_cost}, \text{grid}[nr][nc])$$
+        $$\text{cost}_{\text{next}} = \max(\text{cost}_{\text{current}}, \text{grid}[nr][nc])$$
     4.  The first time we pop `(n-1, n-1)` from the heap, the associated cost is guaranteed to be the minimum time.
 
 <details>
@@ -5109,7 +5109,8 @@ public:
         return leaves;
     }
 };
----
+```
+</details>
 
 *   **Time Complexity**: $O(V)$
 *   **Space Complexity**: $O(V)$
