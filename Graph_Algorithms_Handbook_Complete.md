@@ -152,7 +152,8 @@ public:
         }
         return matrix;
     }
-};```
+};
+```
 
 </details>
 
@@ -383,7 +384,8 @@ public:
         }
         return order;
     }
-};```
+};
+```
 
 </details>
 
@@ -573,7 +575,8 @@ public:
         }
         return false;
     }
-};```
+};
+```
 
 </details>
 
@@ -797,7 +800,8 @@ public:
         }
         return topoOrder;
     }
-};```
+};
+```
 
 </details>
 
@@ -1091,7 +1095,8 @@ public:
         }
         return dist;
     }
-};```
+};
+```
 
 </details>
 
@@ -1296,7 +1301,8 @@ public:
     int getSize(int i) {
         return size[find(i)];
     }
-};```
+};
+```
 
 </details>
 
@@ -1571,7 +1577,8 @@ public:
         }
         return (visitedCount == n) ? mstWeight : -1;
     }
-};```
+};
+```
 
 </details>
 
@@ -1891,7 +1898,8 @@ public:
         }
         return sccs;
     }
-};```
+};
+```
 
 </details>
 
@@ -2170,7 +2178,8 @@ public:
         }
         return apList;
     }
-};```
+};
+```
 
 </details>
 
@@ -2360,7 +2369,8 @@ public:
         }
         return true;
     }
-};```
+};
+```
 
 </details>
 
@@ -2746,7 +2756,8 @@ public:
         }
         return maxFlow;
     }
-};```
+};
+```
 
 </details>
 
@@ -2875,7 +2886,8 @@ public:
         }
         return neighbors;
     }
-};```
+};
+```
 
 </details>
 
@@ -3033,7 +3045,8 @@ public:
         }
         return maxPath;
     }
-};```
+};
+```
 
 </details>
 
@@ -3207,7 +3220,8 @@ public:
         
         return (result.size() == indegree.size()) ? result : "";
     }
-};```
+};
+```
 
 </details>
 
@@ -3352,7 +3366,8 @@ public:
         backtrack(endWord, path);
         return results;
     }
-};```
+};
+```
 
 </details>
 
@@ -3438,7 +3453,8 @@ public:
         
         return (order.size() == numCourses) ? order : vector<int>();
     }
-};```
+};
+```
 
 </details>
 
@@ -3525,7 +3541,8 @@ public:
         }
         return island_count;
     }
-};```
+};
+```
 
 </details>
 
@@ -3623,7 +3640,8 @@ public:
         dfs(0, -1, adj, disc, low, bridges);
         return bridges;
     }
-};```
+};
+```
 
 </details>
 
@@ -3729,7 +3747,8 @@ public:
         }
         return (fresh == 0) ? minutes : -1;
     }
-};```
+};
+```
 
 </details>
 
@@ -3836,7 +3855,8 @@ public:
         }
         return result;
     }
-};```
+};
+```
 
 </details>
 
@@ -3943,7 +3963,8 @@ public:
         }
         return -1;
     }
-};```
+};
+```
 
 </details>
 
@@ -4035,7 +4056,8 @@ public:
         }
         return (max_dist == INF) ? -1 : max_dist;
     }
-};```
+};
+```
 
 </details>
 
@@ -4131,7 +4153,8 @@ public:
         }
         return clone;
     }
-};```
+};
+```
 
 </details>
 
@@ -4203,7 +4226,8 @@ public:
 
         return (dist[dst] == INF) ? -1 : dist[dst];
     }
-};```
+};
+```
 
 </details>
 
@@ -4294,7 +4318,8 @@ public:
         }
         return -1;
     }
-};```
+};
+```
 
 </details>
 
@@ -4401,7 +4426,8 @@ public:
         }
         return results;
     }
-};```
+};
+```
 
 </details>
 
@@ -4493,7 +4519,8 @@ public:
         }
         return global_max;
     }
-};```
+};
+```
 
 </details>
 
@@ -4631,7 +4658,8 @@ public:
         }
         return results;
     }
-};```
+};
+```
 
 </details>
 
@@ -4715,7 +4743,8 @@ public:
         reverse(itinerary.begin(), itinerary.end());
         return itinerary;
     }
-};```
+};
+```
 
 </details>
 
@@ -4791,7 +4820,8 @@ public:
         }
         return true;
     }
-};```
+};
+```
 
 </details>
 
@@ -4874,7 +4904,8 @@ public:
         }
         return safe;
     }
-};```
+};
+```
 
 </details>
 
@@ -5015,7 +5046,8 @@ public:
         // No special fallback needed: for all-zero grids the scan sets max_size = 1 (flip one cell).
         return max_size;
     }
-};```
+};
+```
 
 </details>
 
@@ -5109,7 +5141,8 @@ public:
         }
         return leaves;
     }
-};```
+};
+```
 
 </details>
 
