@@ -52,7 +52,8 @@ In FAANG interviews, graph problems are rarely presented directly as mathematica
 
 ### Implementation Code
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 class GraphRepresentations:
@@ -75,7 +76,10 @@ class GraphRepresentations:
         return matrix
 ```
 
-#### Java
+</details>
+
+<details>
+<summary><strong>Java</strong></summary>
 
 ```java
 import java.util.*;
@@ -112,7 +116,10 @@ public class GraphRepresentations {
 }
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -147,6 +154,8 @@ public:
 };
 ```
 
+</details>
+
 ---
 
 ## 2. Graph Traversal: BFS & DFS
@@ -169,7 +178,8 @@ Traversals are the foundation of all advanced graph algorithms. Master the diffe
 
 ### Implementation Code
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 from collections import deque
@@ -224,7 +234,10 @@ class Traversals:
         return traversal_order
 ```
 
-#### Java
+</details>
+
+<details>
+<summary><strong>Java</strong></summary>
 
 ```java
 import java.util.*;
@@ -294,7 +307,10 @@ public class Traversals {
 }
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -369,6 +385,8 @@ public:
 };
 ```
 
+</details>
+
 ---
 
 ## 3. Cycle Detection Patterns
@@ -391,7 +409,8 @@ Cycle detection is highly tested because templates vary drastically between Undi
 
 ### Implementation Code
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 class CycleDetection:
@@ -438,7 +457,10 @@ class CycleDetection:
         return False
 ```
 
-#### Java
+</details>
+
+<details>
+<summary><strong>Java</strong></summary>
 
 ```java
 import java.util.*;
@@ -494,7 +516,10 @@ public class CycleDetection {
 }
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -550,6 +575,8 @@ public:
 };
 ```
 
+</details>
+
 ---
 
 ## 4. Topological Sorting (Kahn's & DFS)
@@ -568,7 +595,8 @@ public:
 
 ### Implementation Code
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 from collections import deque
@@ -619,7 +647,10 @@ class TopologicalSort:
         return stack[::-1] # Reverse the stack to get correct ordering
 ```
 
-#### Java
+</details>
+
+<details>
+<summary><strong>Java</strong></summary>
 
 ```java
 import java.util.*;
@@ -692,7 +723,10 @@ public class TopologicalSort {
 }
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -765,6 +799,8 @@ public:
 };
 ```
 
+</details>
+
 ---
 
 ## 5. Shortest Path Algorithms (Dijkstra, Bellman-Ford, Floyd-Warshall)
@@ -792,7 +828,8 @@ Choosing the correct shortest path algorithm requires looking at the graph's pro
 
 ### Implementation Code
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 import heapq
@@ -840,6 +877,8 @@ class ShortestPath:
 
     @staticmethod
     def floyd_warshall(n: int, edges: list[list[int]]) -> list[list[float]]:
+        # NOTE: This implementation assumes DIRECTED edges.
+        # For undirected graphs, also set dist[v][u] = min(dist[v][u], w) for each edge.
         # Initialize distance matrix
         dist = [[float('inf')] * n for _ in range(n)]
         for i in range(n):
@@ -856,7 +895,10 @@ class ShortestPath:
         return dist
 ```
 
-#### Java
+</details>
+
+<details>
+<summary><strong>Java</strong></summary>
 
 ```java
 import java.util.*;
@@ -952,7 +994,10 @@ public class ShortestPath {
 }
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -968,7 +1013,8 @@ public:
     };
 
     static std::vector<int> dijkstra(int n, const std::vector<std::vector<Edge>>& adj, int start) {
-        std::vector<int> dist(n, 2e9); // Big number
+        const int INF = 1000000000; // Safe int sentinel (1e9 fits well below INT_MAX)
+        std::vector<int> dist(n, INF);
         dist[start] = 0;
         
         // Min-heap storing {distance, node}
@@ -982,7 +1028,8 @@ public:
             if (d > dist[curr]) continue;
 
             for (const auto& edge : adj[curr]) {
-                if (dist[curr] + edge.weight < dist[edge.to]) {
+                // Guard against overflow before adding weight to dist[curr]
+                if (dist[curr] != INF && dist[curr] + edge.weight < dist[edge.to]) {
                     dist[edge.to] = dist[curr] + edge.weight;
                     minHeap.push({dist[edge.to], edge.to});
                 }
@@ -992,7 +1039,8 @@ public:
     }
 
     static std::vector<int> bellmanFord(int n, const std::vector<std::vector<int>>& edges, int start) {
-        std::vector<int> dist(n, 2e9);
+        const int INF = 1000000000;
+        std::vector<int> dist(n, INF);
         dist[start] = 0;
 
         for (int i = 0; i < n - 1; ++i) {
@@ -1000,18 +1048,18 @@ public:
                 int u = edge[0];
                 int v = edge[1];
                 int w = edge[2];
-                if (dist[u] != 2e9 && dist[u] + w < dist[v]) {
+                if (dist[u] != INF && dist[u] + w < dist[v]) {
                     dist[v] = dist[u] + w;
                 }
             }
         }
 
-        // V-th check
+        // V-th check for negative weight cycles
         for (const auto& edge : edges) {
             int u = edge[0];
             int v = edge[1];
             int w = edge[2];
-            if (dist[u] != 2e9 && dist[u] + w < dist[v]) {
+            if (dist[u] != INF && dist[u] + w < dist[v]) {
                 throw std::runtime_error("Negative weight cycle detected.");
             }
         }
@@ -1019,7 +1067,9 @@ public:
     }
 
     static std::vector<std::vector<int>> floydWarshall(int n, const std::vector<std::vector<int>>& edges) {
-        std::vector<std::vector<int>> dist(n, std::vector<int>(n, 1e9));
+        // NOTE: Assumes directed edges. For undirected, also set dist[v][u] = min(dist[v][u], w).
+        const int INF = 1000000000;
+        std::vector<std::vector<int>> dist(n, std::vector<int>(n, INF));
         for (int i = 0; i < n; ++i) dist[i][i] = 0;
 
         for (const auto& edge : edges) {
@@ -1032,7 +1082,7 @@ public:
         for (int k = 0; k < n; ++k) {
             for (int i = 0; i < n; ++i) {
                 for (int j = 0; j < n; ++j) {
-                    if (dist[i][k] != 1e9 && dist[k][j] != 1e9) {
+                    if (dist[i][k] != INF && dist[k][j] != INF) {
                         dist[i][j] = std::min(dist[i][j], dist[i][k] + dist[k][j]);
                     }
                 }
@@ -1042,6 +1092,8 @@ public:
     }
 };
 ```
+
+</details>
 
 ---
 
@@ -1058,7 +1110,8 @@ Disjoint Set Union (DSU) is one of the most powerful data structures for dynamic
 
 ### Implementation Code
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 class DisjointSet:
@@ -1109,7 +1162,10 @@ class DisjointSet:
         return self.size[self.find(i)]
 ```
 
-#### Java
+</details>
+
+<details>
+<summary><strong>Java</strong></summary>
 
 ```java
 public class DisjointSet {
@@ -1174,7 +1230,10 @@ public class DisjointSet {
 }
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -1239,6 +1298,8 @@ public:
 };
 ```
 
+</details>
+
 ---
 
 ## 7. Minimum Spanning Trees (Kruskal & Prim)
@@ -1266,7 +1327,8 @@ A Minimum Spanning Tree (MST) connects all vertices in an undirected, weighted g
 
 ### Implementation Code
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 import heapq
@@ -1335,7 +1397,10 @@ class MSTAlgorithms:
         return mst_weight if visited_count == n else -1
 ```
 
-#### Java
+</details>
+
+<details>
+<summary><strong>Java</strong></summary>
 
 ```java
 import java.util.*;
@@ -1423,7 +1488,10 @@ public class MSTAlgorithms {
 }
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -1505,6 +1573,8 @@ public:
 };
 ```
 
+</details>
+
 ---
 
 ## 8. Strongly Connected Components (Kosaraju & Tarjan)
@@ -1529,7 +1599,8 @@ A Strongly Connected Component (SCC) is a maximal subgraph of a directed graph w
 
 ### Implementation Code
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 class SCCAlgorithms:
@@ -1613,7 +1684,10 @@ class SCCAlgorithms:
         return sccs
 ```
 
-#### Java
+</details>
+
+<details>
+<summary><strong>Java</strong></summary>
 
 ```java
 import java.util.*;
@@ -1667,8 +1741,8 @@ public class SCCAlgorithms {
         }
     }
 
-    private int time = 0;
-    public List<List<Integer>> tarjan(int n, List<List<Integer>> adj) {
+    // time is passed as int[]{0} so static methods can mutate it
+    public static List<List<Integer>> tarjan(int n, List<List<Integer>> adj) {
         int[] disc = new int[n];
         int[] low = new int[n];
         boolean[] inStack = new boolean[n];
@@ -1676,24 +1750,24 @@ public class SCCAlgorithms {
         List<List<Integer>> sccs = new ArrayList<>();
         Arrays.fill(disc, -1);
         Arrays.fill(low, -1);
-        time = 0;
+        int[] time = {0}; // mutable wrapper so static helper can increment it
 
         for (int i = 0; i < n; i++) {
             if (disc[i] == -1) {
-                tarjanDFS(i, adj, disc, low, inStack, stack, sccs);
+                tarjanDFS(i, adj, disc, low, inStack, stack, sccs, time);
             }
         }
         return sccs;
     }
 
-    private void tarjanDFS(int u, List<List<Integer>> adj, int[] disc, int[] low, boolean[] inStack, Stack<Integer> stack, List<List<Integer>> sccs) {
-        disc[u] = low[u] = time++;
+    private static void tarjanDFS(int u, List<List<Integer>> adj, int[] disc, int[] low, boolean[] inStack, Stack<Integer> stack, List<List<Integer>> sccs, int[] time) {
+        disc[u] = low[u] = time[0]++;
         stack.push(u);
         inStack[u] = true;
 
         for (int v : adj.get(u)) {
             if (disc[v] == -1) {
-                tarjanDFS(v, adj, disc, low, inStack, stack, sccs);
+                tarjanDFS(v, adj, disc, low, inStack, stack, sccs, time);
                 low[u] = Math.min(low[u], low[v]);
             } else if (inStack[v]) {
                 low[u] = Math.min(low[u], disc[v]);
@@ -1714,7 +1788,10 @@ public class SCCAlgorithms {
 }
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -1816,6 +1893,8 @@ public:
 };
 ```
 
+</details>
+
 ---
 
 ## 9. Bridges and Articulation Points (Tarjan's)
@@ -1841,7 +1920,8 @@ By maintaining discovery time `disc[u]` and the lowest discovery time reachable 
 
 ### Implementation Code
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 class TarjanCriticalItems:
@@ -1858,6 +1938,8 @@ class TarjanCriticalItems:
             time += 1
             
             for v in adj[u]:
+                # NOTE: Skipping parent by node ID (not edge ID) may miss bridges in multigraphs
+                # (parallel edges). For multigraphs, track the parent edge index instead.
                 if v == parent:
                     continue
                 if disc[v] == -1:
@@ -1888,6 +1970,8 @@ class TarjanCriticalItems:
             children = 0
             
             for v in adj[u]:
+                # NOTE: Skipping parent by node ID (not edge ID) may miss APs in multigraphs
+                # (parallel edges). For multigraphs, track the parent edge index instead.
                 if v == parent:
                     continue
                 if disc[v] == -1:
@@ -1911,7 +1995,10 @@ class TarjanCriticalItems:
         return [i for i in range(n) if is_ap[i]]
 ```
 
-#### Java
+</details>
+
+<details>
+<summary><strong>Java</strong></summary>
 
 ```java
 import java.util.*;
@@ -1938,6 +2025,7 @@ public class TarjanCriticalItems {
     private void dfsBridges(int u, int parent, List<List<Integer>> adj, int[] disc, int[] low, List<List<Integer>> bridges) {
         disc[u] = low[u] = time++;
         for (int v : adj.get(u)) {
+            // NOTE: Parent skipped by node ID. For multigraphs (parallel edges), use edge index instead.
             if (v == parent) continue;
             if (disc[v] == -1) {
                 dfsBridges(v, u, adj, disc, low, bridges);
@@ -1976,6 +2064,7 @@ public class TarjanCriticalItems {
         disc[u] = low[u] = time++;
         int children = 0;
         for (int v : adj.get(u)) {
+            // NOTE: Parent skipped by node ID. For multigraphs (parallel edges), use edge index instead.
             if (v == parent) continue;
             if (disc[v] == -1) {
                 children++;
@@ -1995,7 +2084,10 @@ public class TarjanCriticalItems {
 }
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -2007,6 +2099,7 @@ private:
                            std::vector<int>& low, std::vector<std::vector<int>>& bridges, int& time) {
         disc[u] = low[u] = time++;
         for (int v : adj[u]) {
+            // NOTE: Parent skipped by node ID. For multigraphs (parallel edges), use edge index instead.
             if (v == parent) continue;
             if (disc[v] == -1) {
                 dfsBridges(v, u, adj, disc, low, bridges, time);
@@ -2025,6 +2118,7 @@ private:
         disc[u] = low[u] = time++;
         int children = 0;
         for (int v : adj[u]) {
+            // NOTE: Parent skipped by node ID. For multigraphs (parallel edges), use edge index instead.
             if (v == parent) continue;
             if (disc[v] == -1) {
                 children++;
@@ -2078,6 +2172,8 @@ public:
 };
 ```
 
+</details>
+
 ---
 
 ## 10. Bipartite Graphs
@@ -2094,7 +2190,8 @@ A Bipartite Graph is a graph whose vertices can be split into two disjoint sets,
 
 ### Implementation Code
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 from collections import deque
@@ -2140,7 +2237,10 @@ class BipartiteVerify:
         return True
 ```
 
-#### Java
+</details>
+
+<details>
+<summary><strong>Java</strong></summary>
 
 ```java
 import java.util.*;
@@ -2200,7 +2300,10 @@ public class BipartiteVerify {
 }
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -2259,6 +2362,8 @@ public:
 };
 ```
 
+</details>
+
 ---
 
 ## 11. Advanced Algorithms (Multi-source BFS, 0-1 BFS, Network Flows)
@@ -2286,7 +2391,8 @@ These specialized algorithms appear in top-tier loops when testing optimization 
 
 ### Implementation Code
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 from collections import deque
@@ -2386,7 +2492,10 @@ class AdvancedAlgorithms:
         return max_flow
 ```
 
-#### Java
+</details>
+
+<details>
+<summary><strong>Java</strong></summary>
 
 ```java
 import java.util.*;
@@ -2509,12 +2618,16 @@ public class AdvancedAlgorithms {
 }
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
 #include <queue>
 #include <deque>
+#include <climits>
 #include <algorithm>
 
 class AdvancedAlgorithms {
@@ -2562,7 +2675,8 @@ public:
     }
 
     static std::vector<int> zeroOneBFS(int n, const std::vector<std::vector<std::pair<int, int>>>& adj, int start) {
-        std::vector<int> dist(n, 2e9);
+        const int INF = 1000000000;
+        std::vector<int> dist(n, INF);
         dist[start] = 0;
         std::deque<int> dq;
         dq.push_back(start);
@@ -2615,7 +2729,7 @@ public:
         };
 
         while (bfs(source, sink)) {
-            int pathFlow = 2e9;
+            int pathFlow = INT_MAX; // Safe: std::min will reduce to the actual bottleneck capacity
             for (int v = sink; v != source; v = parent[v]) {
                 int u = parent[v];
                 pathFlow = std::min(pathFlow, residual[u][v]);
@@ -2634,6 +2748,8 @@ public:
 };
 ```
 
+</details>
+
 ---
 
 ## 12. Grid-Based Implicit Graphs
@@ -2650,7 +2766,8 @@ A massive subset of FAANG graph problems are presented as a 2D array (Maze, grid
 
 ### Implementation Code
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 class GridImplicitGraph:
@@ -2681,7 +2798,10 @@ class GridImplicitGraph:
         return neighbors
 ```
 
-#### Java
+</details>
+
+<details>
+<summary><strong>Java</strong></summary>
 
 ```java
 import java.util.*;
@@ -2717,7 +2837,10 @@ public class GridImplicitGraph {
 }
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -2754,6 +2877,8 @@ public:
 };
 ```
 
+</details>
+
 ---
 
 ## 13. Dynamic Programming on DAGs
@@ -2770,7 +2895,8 @@ Directed Acyclic Graphs have a highly specific structural property: nodes can be
 
 ### Implementation Code
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 class DAGDynamicProgramming:
@@ -2805,7 +2931,10 @@ class DAGDynamicProgramming:
         return max(dp)
 ```
 
-#### Java
+</details>
+
+<details>
+<summary><strong>Java</strong></summary>
 
 ```java
 import java.util.*;
@@ -2853,7 +2982,10 @@ public class DAGDynamicProgramming {
 }
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -2903,6 +3035,8 @@ public:
 };
 ```
 
+</details>
+
 ---
 
 ## 14. Graph Algorithm Selection Guide & Interview Patterns
@@ -2929,11 +3063,14 @@ graph TD
     M -- Yes --> N["Prim's or Kruskal's (MST)"]
     
     J -- Yes --> O{Negative weight cycles?}
-    O -- Yes --> P["Bellman-Ford (V-th pass check)"]
+    O -- Yes --> P["Bellman-Ford (V-th pass DETECTS cycle — no valid path exists)"]
     O -- No --> Q{Single Source or All-Pairs?}
     Q -- Single Source --> R["Bellman-Ford"]
     Q -- All-Pairs --> S["Floyd-Warshall (O(V³))"]
 ```
+
+> [!WARNING]
+> If **negative weight cycles** exist, shortest paths are **undefined** (cost → −∞). Bellman-Ford's V-th relaxation pass **detects** this condition, but it **cannot** produce meaningful distances. No algorithm can solve single-source shortest paths on a graph with reachable negative-weight cycles.
 
 ### Keyword & Clue Identifier Table
 
@@ -2967,7 +3104,8 @@ This curated section presents fully solved production-grade implementations and 
     3.  **Edge Case**: If `word2` is a prefix of `word1` but shorter (e.g. `["abc", "ab"]`), it is mathematically invalid. Return `""`.
     4.  **Topological Sort**: Run Kahn's Algorithm. If the size of the sorted string is less than the count of unique characters, a cycle exists. Return `""`.
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 from collections import deque
@@ -3007,7 +3145,10 @@ class SolutionAlienDictionary:
         return "".join(result) if len(result) == len(indegree) else ""
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <string>
@@ -3068,6 +3209,8 @@ public:
 };
 ```
 
+</details>
+
 *   **Time Complexity**: $O(C)$ where $C$ is the total length of all alien words combined.
 *   **Space Complexity**: $O(1)$ since alphabet limit is fixed at $26$ letters.
 
@@ -3082,7 +3225,8 @@ public:
     1.  **BFS (Level order)**: Find the shortest distance from `beginWord` to all reachable words. Save each word's shortest step level inside a hash map.
     2.  **Backtracking (DFS)**: Traverse backwards from `endWord` (or forward from `beginWord`) using the level map. Only step into adjacent words whose distance value decreases strictly by exactly $1$. This guarantees that every path generated is of minimum possible length.
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 from collections import deque, defaultdict
@@ -3093,35 +3237,9 @@ class SolutionWordLadderII:
         if endWord not in word_set:
             return []
             
-        # BFS to map shortest distance levels
+        # BFS to compute shortest distance level for each word from beginWord
         level_map = {beginWord: 0}
         queue = deque([beginWord])
-        found = False
-        
-        while queue and not found:
-            size = len(queue)
-            visited_this_level = set()
-            for _ in range(size):
-                curr = queue.popleft()
-                if curr == endWord:
-                    found = True
-                    break
-                # Try all 1-character variations
-                for i in range(len(curr)):
-                    for c in 'abcdefghijklmnopqrstuvwxyz':
-                        neighbor = curr[:i] + c + curr[i+1:]
-                        if neighbor in word_set and neighbor not in level_map:
-                            if neighbor not in visited_this_level:
-                                visited_this_level.add(neighbor)
-                                queue.append(neighbor)
-            for word in visited_this_level:
-                level_map[word] = len(level_map) # unique level marker
-                # Track levels correctly using queue-based iteration level
-        
-        # Reset and refine the exact level map values
-        level_map = {}
-        queue = deque([beginWord])
-        level_map[beginWord] = 0
         
         while queue:
             curr = queue.popleft()
@@ -3156,7 +3274,10 @@ class SolutionWordLadderII:
         return results
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <string>
@@ -3233,6 +3354,8 @@ public:
 };
 ```
 
+</details>
+
 *   **Time Complexity**: $O(N \cdot 26^L)$ where $N$ is size of `wordList` and $L$ is word length.
 *   **Space Complexity**: $O(N \cdot L)$
 
@@ -3245,7 +3368,8 @@ public:
 *   **Graph Pattern**: Directed Graph, Topological Sort (Kahn's).
 *   **Algorithmic Approach**: Refer directly to [Topological Sorting Section](#4-topological-sorting-kahns--dfs).
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 from collections import deque
@@ -3273,7 +3397,10 @@ class SolutionCourseScheduleII:
         return order if len(order) == numCourses else []
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -3313,6 +3440,8 @@ public:
 };
 ```
 
+</details>
+
 *   **Time Complexity**: $O(V + E)$ where $V = \text{numCourses}$, $E = \text{prerequisites.length}$.
 *   **Space Complexity**: $O(V + E)$
 
@@ -3328,7 +3457,8 @@ public:
     2.  Trigger a DFS or BFS from that cell to find all connected land components. 
     3.  **Sink Technique**: To save auxiliary memory space, flip visited `'1'`s to `'0'`s on the fly during traversal rather than maintaining a separate `visited` array.
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 class SolutionNumberOfIslands:
@@ -3354,7 +3484,10 @@ class SolutionNumberOfIslands:
         return island_count
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -3394,6 +3527,8 @@ public:
 };
 ```
 
+</details>
+
 *   **Time Complexity**: $O(M \times N)$ where $M$ is row count and $N$ is column count.
 *   **Space Complexity**: $O(M \times N)$ recursive call stack depth in the worst case (e.g. grid is all land).
 
@@ -3406,7 +3541,8 @@ public:
 *   **Graph Pattern**: Undirected Graph, Tarjan's Bridge Detection.
 *   **Algorithmic Approach**: Refer directly to [Bridges & Articulation Points Section](#9-bridges-and-articulation-points-tarjans).
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 class SolutionCriticalConnections:
@@ -3441,7 +3577,10 @@ class SolutionCriticalConnections:
         return bridges
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -3486,6 +3625,8 @@ public:
 };
 ```
 
+</details>
+
 *   **Time Complexity**: $O(V + E)$ where $V = n$, $E = \text{connections.length}$.
 *   **Space Complexity**: $O(V + E)$
 
@@ -3498,7 +3639,8 @@ public:
 *   **Graph Pattern**: Grid Implicit, Multi-Source BFS.
 *   **Algorithmic Approach**: Refer directly to [Advanced Algorithms Section](#11-advanced-algorithms-multi-source-bfs-0-1-bfs-network-flows).
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 from collections import deque
@@ -3533,7 +3675,10 @@ class SolutionRottingOranges:
         return minutes if fresh == 0 else -1
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -3586,6 +3731,8 @@ public:
 };
 ```
 
+</details>
+
 *   **Time Complexity**: $O(M \times N)$
 *   **Space Complexity**: $O(M \times N)$
 
@@ -3603,7 +3750,8 @@ public:
     4.  Run DFS/BFS from all Atlantic edge cells. Mark reached nodes in a `atlantic_reachable` matrix.
     5.  Collect all grid cells that are marked `True` in both ocean reachability matrices.
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 class SolutionPacificAtlantic:
@@ -3635,7 +3783,10 @@ class SolutionPacificAtlantic:
         return [[r, c] for r in range(rows) for c in range(cols) if pac[r][c] and atl[r][c]]
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -3687,6 +3838,8 @@ public:
 };
 ```
 
+</details>
+
 *   **Time Complexity**: $O(M \times N)$
 *   **Space Complexity**: $O(M \times N)$
 
@@ -3704,7 +3857,8 @@ public:
     4.  Keep a `visited_stops` set and a `visited_routes` set to avoid infinite transfer loops.
     5.  For each stop, check all unvisited bus routes passing through it. Load all stops on those routes into the queue.
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 from collections import deque, defaultdict
@@ -3740,7 +3894,10 @@ class SolutionBusRoutes:
         return -1
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -3788,6 +3945,8 @@ public:
 };
 ```
 
+</details>
+
 *   **Time Complexity**: $O(\sum \text{routes}[i]\text{.length})$
 *   **Space Complexity**: $O(\sum \text{routes}[i]\text{.length})$
 
@@ -3800,7 +3959,8 @@ public:
 *   **Graph Pattern**: Weighted Graph, Single Source Shortest Path (Dijkstra's).
 *   **Algorithmic Approach**: Refer directly to [Shortest Path Algorithms Section](#5-shortest-path-algorithms-dijkstra-bellman-ford-floyd-warshall).
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 import heapq
@@ -3828,7 +3988,10 @@ class SolutionNetworkDelayTime:
         return max_dist if max_dist != float('inf') else -1
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -3843,7 +4006,8 @@ public:
             adj[t[0]].push_back({t[1], t[2]});
         }
 
-        std::vector<int> dist(n + 1, 2e9);
+        const int INF = 1000000000;
+        std::vector<int> dist(n + 1, INF);
         dist[k] = 0;
         std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<std::pair<int, int>>> pq;
         pq.push({0, k});
@@ -3857,7 +4021,7 @@ public:
             for (const auto& edge : adj[u]) {
                 int v = edge.first;
                 int w = edge.second;
-                if (dist[u] + w < dist[v]) {
+                if (dist[u] != INF && dist[u] + w < dist[v]) {
                     dist[v] = dist[u] + w;
                     pq.push({dist[v], v});
                 }
@@ -3868,10 +4032,12 @@ public:
         for (int i = 1; i <= n; ++i) {
             max_dist = std::max(max_dist, dist[i]);
         }
-        return (max_dist == 2e9) ? -1 : max_dist;
+        return (max_dist == INF) ? -1 : max_dist;
     }
 };
 ```
+
+</details>
 
 *   **Time Complexity**: $O((V + E) \log V)$ where $V = n$, $E = \text{times.length}$.
 *   **Space Complexity**: $O(V + E)$
@@ -3889,7 +4055,8 @@ public:
     3.  If a node is already in the map, return its cloned copy instantly (avoids infinite loops).
     4.  Otherwise, instantiate a new clone node, register it in the map, recursively clone all its neighbors, and append them to the cloned neighbors list.
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 class Node:
@@ -3917,7 +4084,10 @@ class SolutionCloneGraph:
         return _dfs(node)
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -3963,6 +4133,8 @@ public:
 };
 ```
 
+</details>
+
 *   **Time Complexity**: $O(V + E)$
 *   **Space Complexity**: $O(V)$ for hash map and recursion stack.
 
@@ -3978,7 +4150,8 @@ public:
     2.  Use a modified **Bellman-Ford**: We relax all edges at most $K+1$ times.
     3.  **Crucial Trick**: To prevent updating a path by multiple steps in a single iteration, we must **clone** our distance array before each pass, performing relaxations using the frozen snapshot of the previous level's distances.
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 class SolutionCheapestFlights:
@@ -3998,7 +4171,10 @@ class SolutionCheapestFlights:
         return dist[dst] if dist[dst] != float('inf') else -1
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -4007,7 +4183,8 @@ class SolutionCheapestFlights:
 class SolutionCheapestFlights {
 public:
     int findCheapestPrice(int n, std::vector<std::vector<int>>& flights, int src, int dst, int k) {
-        std::vector<int> dist(n, 1e9);
+        const int INF = 1000000000;
+        std::vector<int> dist(n, INF);
         dist[src] = 0;
 
         for (int i = 0; i <= k; ++i) {
@@ -4016,17 +4193,19 @@ public:
                 int u = f[0];
                 int v = f[1];
                 int p = f[2];
-                if (dist[u] != 1e9 && dist[u] + p < temp_dist[v]) {
+                if (dist[u] != INF && dist[u] + p < temp_dist[v]) {
                     temp_dist[v] = dist[u] + p;
                 }
             }
             dist = temp_dist;
         }
 
-        return (dist[dst] == 1e9) ? -1 : dist[dst];
+        return (dist[dst] == INF) ? -1 : dist[dst];
     }
 };
 ```
+
+</details>
 
 *   **Time Complexity**: $O(K \times E)$ where $E = \text{flights.length}$.
 *   **Space Complexity**: $O(V)$
@@ -4045,7 +4224,8 @@ public:
         $$\text{next\_cost} = \max(\text{current\_cost}, \text{grid}[nr][nc])$$
     4.  The first time we pop `(n-1, n-1)` from the heap, the associated cost is guaranteed to be the minimum time.
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 import heapq
@@ -4069,7 +4249,10 @@ class SolutionSwimInRisingWater:
                     heapq.heappush(min_heap, (max(t, grid[nr][nc]), nr, nc))
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -4113,6 +4296,8 @@ public:
 };
 ```
 
+</details>
+
 *   **Time Complexity**: $O(N^2 \log N)$
 *   **Space Complexity**: $O(N^2)$
 
@@ -4130,7 +4315,8 @@ public:
         $$\text{Result}(X/Y) = \text{weight}(X \to M_1) \times \text{weight}(M_1 \to M_2) \dots \times \text{weight}(M_k \to Y)$$
     4.  If $X$ or $Y$ does not exist in the graph, or there is no path between them, return `-1.0`.
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 from collections import defaultdict
@@ -4164,7 +4350,10 @@ class SolutionEvaluateDivision:
         return results
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <string>
@@ -4214,6 +4403,8 @@ public:
 };
 ```
 
+</details>
+
 *   **Time Complexity**: $O(Q \times (V + E))$ where $Q$ is query count.
 *   **Space Complexity**: $O(V + E)$
 
@@ -4229,7 +4420,8 @@ public:
     2.  For every cell `(r, c)`, compute the longest path recursively using DFS.
     3.  **Memoization**: Cache the calculated longest path value for cell `(r, c)` inside `memo[r][c]`. If we visit `(r, c)` again, return `memo[r][c]` instantly ($O(1)$).
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 class SolutionLongestIncreasingPath:
@@ -4255,7 +4447,10 @@ class SolutionLongestIncreasingPath:
         return max(_dfs(r, c) for r in range(rows) for c in range(cols))
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -4300,6 +4495,8 @@ public:
 };
 ```
 
+</details>
+
 *   **Time Complexity**: $O(M \times N)$ since each cell is calculated exactly once.
 *   **Space Complexity**: $O(M \times N)$ for the memo table and recursion call stack.
 
@@ -4316,7 +4513,8 @@ public:
     3.  If an email appears in multiple accounts, DSU will automatically merge those accounts under a single root.
     4.  Group the emails by their parent root ID, sort the email lists, prepend the account name, and return.
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 class DSU:
@@ -4363,7 +4561,10 @@ class SolutionAccountsMerge:
         return results
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <string>
@@ -4432,6 +4633,8 @@ public:
 };
 ```
 
+</details>
+
 *   **Time Complexity**: $O(N \log N)$ where $N$ is total emails.
 *   **Space Complexity**: $O(N)$
 
@@ -4449,7 +4652,8 @@ public:
     4.  When a node has no outgoing edges left (dead-end), push it onto our results list.
     5.  The final itinerary is the **reverse** of the result list.
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 from collections import defaultdict
@@ -4474,7 +4678,10 @@ class SolutionReconstructItinerary:
         return itinerary[::-1]
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <string>
@@ -4510,6 +4717,8 @@ public:
 };
 ```
 
+</details>
+
 *   **Time Complexity**: $O(E \log E)$ where $E$ is ticket count (sorting destinations).
 *   **Space Complexity**: $O(V + E)$
 
@@ -4522,7 +4731,8 @@ public:
 *   **Graph Pattern**: Graph Coloring, Bipartite Verification.
 *   **Algorithmic Approach**: Refer directly to [Bipartite Graphs Section](#10-bipartite-graphs).
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 class SolutionIsBipartite:
@@ -4547,7 +4757,10 @@ class SolutionIsBipartite:
         return True
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -4580,6 +4793,8 @@ public:
 };
 ```
 
+</details>
+
 *   **Time Complexity**: $O(V + E)$
 *   **Space Complexity**: $O(V)$
 
@@ -4599,7 +4814,8 @@ public:
     3.  If a node's neighbor has state `1` or enters state `1`, a cycle exists. The node is marked unsafe.
     4.  If DFS finishes neighbor loops successfully, mark the node safe (`2`).
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 class SolutionSafeStates:
@@ -4618,10 +4834,14 @@ class SolutionSafeStates:
             state[u] = 2 # Safe
             return False
             
-        return [i for i in range(n) if not _dfs(i)]
+        # Short-circuit: if state[i] == 2 the node is already confirmed safe — avoid re-running DFS on it
+        return [i for i in range(n) if state[i] == 2 or not _dfs(i)]
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -4656,6 +4876,8 @@ public:
 };
 ```
 
+</details>
+
 *   **Time Complexity**: $O(V + E)$
 *   **Space Complexity**: $O(V)$
 
@@ -4674,7 +4896,8 @@ public:
         $$\text{Total Size} = 1 + \sum_{\text{unique adjacent labels}} \text{size}(\text{label})$$
     5.  Track the global maximum.
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 class SolutionMakingLargeIsland:
@@ -4717,7 +4940,10 @@ class SolutionMakingLargeIsland:
         return max_size if max_size != 0 else n * n
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -4784,10 +5010,14 @@ public:
                 }
             }
         }
-        return (max_size == 0) ? n * n : max_size;
+        // max_size is correctly updated by both the labeling pass and the flip-scan pass.
+        // No special fallback needed: for all-zero grids the scan sets max_size = 1 (flip one cell).
+        return max_size;
     }
 };
 ```
+
+</details>
 
 *   **Time Complexity**: $O(N^2)$
 *   **Space Complexity**: $O(N^2)$
@@ -4806,7 +5036,8 @@ public:
     4.  Repeatedly strip away leaves level-by-level, decrementing degrees of adjacent nodes.
     5.  When the total number of remaining nodes drops to $\le 2$, those remaining nodes are the roots of the Minimum Height Trees.
 
-#### Python
+<details>
+<summary><strong>Python</strong></summary>
 
 ```python
 class SolutionMinHeightTrees:
@@ -4836,7 +5067,10 @@ class SolutionMinHeightTrees:
         return leaves
 ```
 
-#### C++
+</details>
+
+<details>
+<summary><strong>C++</strong></summary>
 
 ```cpp
 #include <vector>
@@ -4875,7 +5109,7 @@ public:
         return leaves;
     }
 };
-```
+---
 
 *   **Time Complexity**: $O(V)$
 *   **Space Complexity**: $O(V)$
@@ -4884,42 +5118,58 @@ public:
 
 ## 16. Quick-Revision Cheat Sheets
 
-Use these dense reference assets in the 24 hours leading up to your interview.
+### 🎯 Graph Pattern Recognition Guide
 
-### Graph Pattern Recognition Guide
-
-*   **"Shortest Path" in Unweighted Graph/Grid** $\to$ **BFS**
-*   **"Shortest Path" in Weighted Graph with Positive Edges** $\to$ **Dijkstra's Algorithm (Min-Heap)**
-*   **"Shortest Path" with Negative Weights or Negative Cycles** $\to$ **Bellman-Ford Algorithm**
-*   **"All-Pairs Shortest Path"** $\to$ **Floyd-Warshall Algorithm**
-*   **"Order of Tasks / Dependency Resolution"** $\to$ **Topological Sorting (Kahn's or DFS)**
-*   **"Dynamic Connectivity / Merge Groups"** $\to$ **Disjoint Set Union (Union Find)**
-*   **"Network Robustness / Single Point of Failure"** $\to$ **Tarjan's Bridge / AP Detection**
-*   **"Simultaneous Spreading / Wave Expansion"** $\to$ **Multi-Source BFS**
-*   **"Step weights are strictly 0 and 1"** $\to$ **0-1 BFS**
-*   **"Connecting all nodes with minimum possible edge cost sum"** $\to$ **Prim's or Kruskal's (MST)**
-*   **"Eulerian Paths / Visit every edge exactly once"** $\to$ **Hierholzer's Algorithm**
-*   **"Bipartite verification / 2-coloring"** $\to$ **BFS/DFS Graph Coloring**
+*   **"Shortest Path" in Unweighted Graph/Grid**
+    → **BFS**
+*   **"Shortest Path" in Weighted Graph with Positive Edges**
+    → **Dijkstra's Algorithm (Min-Heap)**
+*   **"Shortest Path" with Negative Weights or Negative Cycles**
+    → **Bellman-Ford Algorithm**
+*   **"All-Pairs Shortest Path"**
+    → **Floyd-Warshall Algorithm**
+*   **"Order of Tasks / Dependency Resolution"**
+    → **Topological Sorting (Kahn's or DFS)**
+*   **"Dynamic Connectivity / Merge Groups"**
+    → **Disjoint Set Union (Union Find)**
+*   **"Network Robustness / Single Point of Failure"**
+    → **Tarjan's Bridge / AP Detection**
+*   **"Simultaneous Spreading / Wave Expansion"**
+    → **Multi-Source BFS**
+*   **"Step weights are strictly 0 and 1"**
+    → **0-1 BFS**
+*   **"Connecting all nodes with minimum possible edge cost sum"**
+    → **Prim's or Kruskal's (MST)**
+*   **"Eulerian Paths / Visit every edge exactly once"**
+    → **Hierholzer's Algorithm**
+*   **"Bipartite verification / 2-coloring"**
+    → **BFS/DFS Graph Coloring**
+*   **"Detect cycle in undirected graph"**
+    → **DFS + parent skip** or **DSU**
+*   **"Detect cycle in directed graph"**
+    → **DFS 3-color** (White/Gray/Black)
+*   **"Longest/shortest path on a DAG"**
+    → **Topo Sort + DP**
+*   **"Find groups that are mutually reachable (directed)"**
+    → **Kosaraju's or Tarjan's Strongly Connected Components (SCC)**
 
 ---
 
-### Time & Space Complexity Master Reference Table
+### ⏱️ Time & Space Complexity Master Reference Table
 
 | Algorithm | Time Complexity (Best/Worst) | Space Complexity | Crucial Data Structure / Prerequisite |
 | :--- | :--- | :--- | :--- |
-| **BFS** | $O(V + E)$ | $O(V)$ | Queue, Visited Set |
-| **DFS** | $O(V + E)$ | $O(V)$ | Call Stack (Recursion), Visited Set |
-| **Dijkstra** | $O((V + E) \log V)$ | $O(V + E)$ | Priority Queue (Min-Heap), Adjacency List |
+| **BFS** | $O(V+E)$ | $O(V)$ | Queue, Visited Set |
+| **DFS** | $O(V+E)$ | $O(V)$ | Call Stack (Recursion), Visited Set |
+| **Dijkstra** | $O((V+E) \log V)$ | $O(V+E)$ | Priority Queue (Min-Heap), Adjacency List |
 | **Bellman-Ford** | $O(V \times E)$ | $O(V)$ | Edges list representation |
-| **Floyd-Warshall** | $O(V^3)$ | $O(V^2)$ | Adjacency Matrix ($2\text{D}$ array) |
-| **Kahn's Topological** | $O(V + E)$ | $O(V)$ | In-degree array, Queue |
+| **Floyd-Warshall** | $O(V^3)$ | $O(V^2)$ | Adjacency Matrix (2D array) |
+| **Kahn's Topological** | $O(V+E)$ | $O(V)$ | In-degree array, Queue |
 | **Union-Find (DSU)** | $O(\alpha(V)) \approx O(1)$ per op | $O(V)$ | Parent & Rank/Size arrays |
-| **Kruskal's MST** | $O(E \log E)$ | $O(V + E)$ | Edge sorting, Union-Find (DSU) |
-| **Prim's MST** | $O(E \log V)$ | $O(V + E)$ | Priority Queue (Min-Heap) |
-| **Kosaraju's SCC** | $O(V + E)$ | $O(V + E)$ | Finishing time stack, Graph Transposition |
-| **Tarjan's SCC** | $O(V + E)$ | $O(V)$ | Discovery & Low-link arrays, Stack |
-| **Tarjan's Bridges** | $O(V + E)$ | $O(V)$ | DFS traversal tree, Low-link tracking |
-| **Edmonds-Karp** | $O(V \times E^2)$ | $O(V^2)$ or $O(V + E)$ | BFS, Residual network matrices |
-| **0-1 BFS** | $O(V + E)$ | $O(V)$ | Double-Ended Queue (Deque) |
-
----
+| **Kruskal's MST** | $O(E \log E)$ | $O(V+E)$ | Edge sorting, Union-Find (DSU) |
+| **Prim's MST** | $O(E \log V)$ | $O(V+E)$ | Priority Queue (Min-Heap) |
+| **Kosaraju's SCC** | $O(V+E)$ | $O(V+E)$ | Finishing time stack, Graph Transposition |
+| **Tarjan's SCC** | $O(V+E)$ | $O(V)$ | Discovery & Low-link arrays, Stack |
+| **Tarjan's Bridges** | $O(V+E)$ | $O(V)$ | DFS traversal tree, Low-link tracking |
+| **Edmonds-Karp** | $O(V \times E^2)$ | $O(V^2)$ or $O(V+E)$ | BFS, Residual network matrices |
+| **0-1 BFS** | $O(V+E)$ | $O(V)$ | Double-Ended Queue (Deque) |
